@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const {findUserByCredentials, createUser, findUserByUsername, updateUser} = require('../models/userModel')
+const {findUserByCredentials, createUser, findUserByUsername, updateUser, deleteUser} = require('../models/userModel')
 
 const login = async (req, res) => {
     const {username, password} = req.body
@@ -52,4 +52,20 @@ const updateProfile = async (req, res) => {
     }
 };
 
-module.exports = {login, register, updateProfile}
+const deleteProfile = async (req, res) => {
+    const username = req.user.username
+
+    try{
+        const deletedUser = await deleteUser(username)
+        if(!deletedUser){
+            return res.status(404).json({message: "User not found"})
+        }
+
+        res.json({message: "Account deleted successfully"})
+    } catch (err){
+        console.error('Delete error:',err)
+        res.status(500).json({error: "Server error"})
+    }
+}
+
+module.exports = {login, register, updateProfile, deleteProfile}
