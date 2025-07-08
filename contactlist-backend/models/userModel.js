@@ -28,4 +28,11 @@ const updateUser = async (username, updates) => {
     return result.rows[0]
 }
 
-module.exports = {findUserByCredentials, createUser, findUserByUsername, updateUser}
+const deleteUser = async (username) => {
+    const query = 'DELETE FROM "user" WHERE "username" = $1 RETURNING *';
+    const values = [username]
+    const result = await db.query(query, values)
+    return result.rows[0]
+}
+
+module.exports = {findUserByCredentials, createUser, findUserByUsername, updateUser, deleteUser}
