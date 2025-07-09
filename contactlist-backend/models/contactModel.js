@@ -21,4 +21,11 @@ const getAllContacts = async (userId) => {
     return result.rows
 }
 
-module.exports = {createContact, getUserID, getAllContacts}
+const updateContact = async (firstName, lastName, phoneNumber, email, birthday, contactId) => {
+    const query = 'UPDATE "contact" SET "firstName" = $1, "lastName" = $2, "phoneNumber" = $3, "email" = $4, "birthday" = $5 WHERE "contact_id" = $6 RETURNING *';
+    const values = [firstName, lastName, phoneNumber, email, birthday, contactId]
+    const result = await db.query(query, values)
+    return result.rows[0]
+}
+
+module.exports = {createContact, getUserID, getAllContacts, updateContact}
