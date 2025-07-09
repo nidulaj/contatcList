@@ -1,4 +1,4 @@
-const {createContact, getUserID, getAllContacts, updateContact} = require('../models/contactModel')
+const {createContact, getUserID, getAllContacts, updateContact, deleteContact} = require('../models/contactModel')
 
 const createNewContact = async (req, res) => {
     const {firstName, lastName, phoneNumber, email, birthday} = req.body
@@ -43,4 +43,20 @@ const updateExistingContact  = async (req, res) => {
     }
 }
 
-module.exports = {createNewContact, getContactByUser, updateExistingContact}
+const deleteExistingContact = async (req, res) => {
+    const contactId = req.params.id
+
+    try{
+        const deletedContact = await deleteContact(contactId)
+        if(!deletedContact){
+            return res.status(404).json({ message: "Contact not found or not authorized" });
+        }
+
+        res.status(200).json({message: "Contact deleted"})
+    } catch(err){
+        console.error("Delete contact error :", err)
+        res.status(500).json({error: "Server error"})
+    }
+}
+
+module.exports = {createNewContact, getContactByUser, updateExistingContact, deleteExistingContact}
