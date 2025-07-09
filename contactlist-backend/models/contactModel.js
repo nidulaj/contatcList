@@ -28,4 +28,11 @@ const updateContact = async (firstName, lastName, phoneNumber, email, birthday, 
     return result.rows[0]
 }
 
-module.exports = {createContact, getUserID, getAllContacts, updateContact}
+const deleteContact = async (contactId) => {
+    const query = 'DELETE FROM "contact" WHERE "contact_id" = $1 RETURNING *';
+    const values = [contactId]
+    const result = await db.query(query, values)
+    return result.rows[0]
+}
+
+module.exports = {createContact, getUserID, getAllContacts, updateContact, deleteContact}
