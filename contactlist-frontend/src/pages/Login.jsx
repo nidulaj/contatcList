@@ -22,7 +22,7 @@ export default function Login({setIsLoggedIn}) {
         credentials
       );
 
-      console.log("Logged in:", res.data);
+      localStorage.setItem("accessToken", res.data.accessToken); 
       setIsLoggedIn(true)
       navigate('/dashboard')
     } catch (err) {
