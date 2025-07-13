@@ -19,7 +19,6 @@ const getContactByUser = async (req, res) => {
     try{
         const userId = await getUserID(username);
         const contacts = await getAllContacts(userId.id)
-        console.log(contacts)
         res.status(200).json({ contacts });
     } catch(err) {
         console.error('Get contacts error:', err);

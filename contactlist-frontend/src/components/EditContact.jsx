@@ -4,7 +4,7 @@ import "reactjs-popup/dist/index.css";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
-export default function EditProfile({ contact, onUpdate  }) {
+export default function EditContact({ contact, onUpdate  }) {
   const [formData, setFormData] = React.useState({ ...contact });
   const navigate = useNavigate();
 
@@ -49,31 +49,36 @@ export default function EditProfile({ contact, onUpdate  }) {
           <form onSubmit={(e) => handleSubmit(e, close)}>
             <input
               name="firstName"
+              type="text"
               value={formData.firstName}
               onChange={handleChange}
               placeholder="First Name"
             />
             <input
               name="lastName"
+              type="text"
               value={formData.lastName}
               onChange={handleChange}
               placeholder="Last Name"
             />
             <input
               name="phoneNumber"
+              type="number"
               value={formData.phoneNumber}
               onChange={handleChange}
               placeholder="Phone Number"
             />
             <input
               name="email"
+              type="text"
               value={formData.email}
               onChange={handleChange}
               placeholder="Email"
             />
             <input
               name="birthday"
-              value={formData.birthday}
+              type="date"
+              value={new Date(formData.birthday).toISOString().split('T')[0]}
               onChange={handleChange}
               placeholder="Birthday"
             />
