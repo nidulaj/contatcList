@@ -1,50 +1,32 @@
 // src/components/DeleteButton.jsx
-import React from 'react';
-import Swal from 'sweetalert2';
+import React from "react";
+import Swal from "sweetalert2";
 
 export default function DeleteAlert(props) {
-  const handleDeleteFunction = () => {
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: 'btn btn-success',
-        cancelButton: 'btn btn-danger'
-      },
-      buttonsStyling: false
-    });
-
-    swalWithBootstrapButtons.fire({
-      title: 'Are you sure?',
+  function deleteItem() {
+    Swal.fire({
+      title: "Are you sure?",
       text: "You won't be able to revert this!",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
-      cancelButtonText: 'No, cancel!',
-      reverseButtons: true
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        swalWithBootstrapButtons.fire({
-          title: 'Deleted!',
-          text: 'Your contact has been deleted.',
-          icon: 'success'
+        Swal.fire({
+          title: "Deleted!",
+          text: `Your ${props.type} has been deleted.`,
+          icon: "success",
         });
-        props.handleDelete()
-      } else if (
-        result.dismiss === Swal.DismissReason.cancel
-      ) {
-        swalWithBootstrapButtons.fire({
-          title: 'Cancelled',
-          text: 'Your imaginary contact is safe :)',
-          icon: 'error'
-        });
+        props.handleDelete();
       }
     });
-  };
+  }
 
   return (
-    <button className="btn btn-warning" onClick={handleDeleteFunction}>
+    <button className="btn btn-warning" onClick={deleteItem}>
       Delete Contact
     </button>
   );
 }
-
-

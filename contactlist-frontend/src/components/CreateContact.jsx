@@ -2,11 +2,10 @@ import React from "react";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import Swal from "sweetalert2";
 
-export default function CreateContact({ onUpdate  }) {
+export default function CreateContact({ onUpdate }) {
   const [formData, setFormData] = React.useState();
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -29,13 +28,22 @@ export default function CreateContact({ onUpdate  }) {
         }
       );
       console.log("Created: ", res.data);
-
+      close();
+      Swal.fire({
+        title: "Success!",
+        text: "Contact was created successfully.",
+        icon: "success",
+        confirmButtonText: "OK",
+      });
       if (onUpdate) onUpdate(res.data.contact.contact_id);
-      close();                
-      navigate("/dashboard");
     } catch (err) {
       console.error("Creating error:", err);
-      alert("Error during creating");
+      Swal.fire({
+        title: "Oops...!",
+        text: "Something went wrong!",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
     }
   };
 

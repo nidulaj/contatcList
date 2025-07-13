@@ -1,5 +1,4 @@
 import EditContact from "./EditContact";
-import Alert from "./Alert";
 import DeleteAlert from "./DeleteAlert";
 import axios from "axios";
 
@@ -18,6 +17,7 @@ export default function ContactDetails({ contact, onUpdate, onClearSelected }) {
       );
       if (onUpdate) onUpdate();
       if (onClearSelected) onClearSelected();
+
     } catch (err) {
       console.error("Delete error:", err);
     }
@@ -32,7 +32,7 @@ export default function ContactDetails({ contact, onUpdate, onClearSelected }) {
       <p>Birthday : {new Date(contact.birthday).toISOString().split("T")[0]}</p>
 
       <EditContact contact={contact} onUpdate={onUpdate} />
-      <DeleteAlert handleDelete={handleDelete} />
+      <DeleteAlert handleDelete={handleDelete} type = "contact" />
     </div>
   );
 }

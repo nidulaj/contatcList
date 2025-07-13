@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link } from "react-router-dom";
+import Swal from "sweetalert2";
 export default function Register() {
   const [formData, setFormData] = React.useState({
     firstName: "",
@@ -10,24 +11,39 @@ export default function Register() {
     password: "",
   });
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    try{
-        const res = await axios.post('http://localhost:5000/auth/register', formData)
-        console.log('Registered : ', res.data)
-        alert('Registration successful')
-        navigate('/')
-    } catch(err){
-        console.error('Register error:', err)
-        alert('Error during registration')
+    e.preventDefault();
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/auth/register",
+        formData
+      );
+      console.log("Registered : ", res.data);
+
+      Swal.fire({
+        title: "Success!",
+        text: "Your account was created successfully.",
+        icon: "success",
+        confirmButtonText: "OK",
+      }).then(() => {
+        navigate("/");
+      });
+    } catch (err) {
+      console.error("Register error:", err);
+      Swal.fire({
+        title: "Oops...!",
+        text: "Something went wrong!",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
     }
-  }
+  };
   return (
     <div>
       <h2>Register</h2>
@@ -68,7 +84,9 @@ export default function Register() {
         />
         <br />
         <button type="submit">Register</button>
-        <p>Already have an account? <Link to="/">Login</Link></p>
+        <p>
+          Already have an account? <Link to="/">Login</Link>
+        </p>
       </form>
     </div>
   );
