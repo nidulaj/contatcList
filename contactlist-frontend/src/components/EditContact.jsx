@@ -2,11 +2,11 @@ import React from "react";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import Swal from "sweetalert2";
 
-export default function EditContact({ contact, onUpdate  }) {
+export default function EditContact({ contact, onUpdate }) {
   const [formData, setFormData] = React.useState({ ...contact });
-  const navigate = useNavigate();
+
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -15,7 +15,6 @@ export default function EditContact({ contact, onUpdate  }) {
     }));
   };
 
-  // Updated to receive `close` from Popup
   const handleSubmit = async (e, close) => {
     e.preventDefault();
     const token = localStorage.getItem("accessToken");
@@ -30,12 +29,22 @@ export default function EditContact({ contact, onUpdate  }) {
         }
       );
       console.log("Updated: ", res.data);
+      close();
+      Swal.fire({
+        title: "Success!",
+        text: "Contact was updated successfully.",
+        icon: "success",
+        confirmButtonText: "OK",
+      });
       if (onUpdate) onUpdate();
-      close();                
-      navigate("/dashboard");
     } catch (err) {
       console.error("Updated error:", err);
-      alert("Error during updating");
+      Swal.fire({
+        title: "Oops...!",
+        text: "Something went wrong!",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
     }
   };
 
@@ -78,7 +87,7 @@ export default function EditContact({ contact, onUpdate  }) {
             <input
               name="birthday"
               type="date"
-              value={new Date(formData.birthday).toISOString().split('T')[0]}
+              value={new Date(formData.birthday).toISOString().split("T")[0]}
               onChange={handleChange}
               placeholder="Birthday"
             />
