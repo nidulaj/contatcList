@@ -36,6 +36,18 @@ const register = async (req, res) => {
     }
 };
 
+const getUserInfo = async (req, res) => {
+    const username = req.user.username
+
+    try{
+        const loggedUser = await findUserByUsername(username)
+        res.status(201).json({message: loggedUser})
+    }catch(err){
+        console.error('User profile Error:', err);
+        res.status(500).json({error: "Server error"})
+    }
+};
+
 const updateProfile = async (req, res) => {
     const username = req.user.username
     const {firstName, lastName, email} = req.body
@@ -68,4 +80,4 @@ const deleteProfile = async (req, res) => {
     }
 }
 
-module.exports = {login, register, updateProfile, deleteProfile}
+module.exports = {login, register, getUserInfo, updateProfile, deleteProfile}

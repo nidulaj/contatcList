@@ -21,6 +21,7 @@ const findUserByUsername = async (username) => {
     return result.rows[0]
 };
 
+
 const updateUser = async (username, updates) => {
     const query = `UPDATE "user" SET "firstName" = $1, "lastName" = $2, "email" = $3 WHERE "username" = $4 RETURNING *`
     const values = [updates.firstName, updates.lastName, updates.email, username]
