@@ -3,7 +3,7 @@ import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom
 import Register from './pages/register';
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard';
-
+import UserProfile from './pages/UserProfile';
 
 //import './App.css'
 
@@ -16,6 +16,7 @@ function App() {
         <Route path='/' element= {<Login setIsLoggedIn = {setIsLoggedIn} />} />
         <Route path='/register' element= {<Register />} />
         <Route path='/dashboard' element= {isLoggedIn ? <Dashboard  /> : <Navigate to = '/' />} />
+        <Route path='/dashboard/userProfile' element= {isLoggedIn ? <UserProfile  /> : <Navigate to = '/' />} />
       </Routes>
     </Router>
   )

@@ -67,6 +67,7 @@ export default function Dashboard() {
     <>
       <h2>Dashboard</h2>
       <CreateContact onUpdate={(newId) => fetchContacts(newId)} />
+       <button onClick={() => navigate('/dashboard/userProfile')}>User Profile</button>
       <button onClick={handleLogout}>Logout</button>
       <div className="dashboard-content" style={styles}>
         <div className="contactCards">
