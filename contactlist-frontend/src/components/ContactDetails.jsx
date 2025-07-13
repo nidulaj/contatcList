@@ -1,4 +1,4 @@
-import EditProfile from './EditProfile';
+import EditContact from './EditContact';
 
 export default function ContactDetails({ contact, onUpdate }) {
   return (
@@ -7,9 +7,9 @@ export default function ContactDetails({ contact, onUpdate }) {
       <p>Last Name : {contact.lastName}</p>
       <p>Phone Number : {contact.phoneNumber}</p>
       <p>Email : {contact.email}</p>
-      <p>Birthday : {contact.birthday}</p>
+      <p>Birthday : {new Date(contact.birthday).toISOString().split('T')[0]}</p>
 
-      <EditProfile contact={contact} onUpdate={onUpdate} />
+      <EditContact contact={contact} onUpdate={onUpdate} />
     </div>
   )
 }
