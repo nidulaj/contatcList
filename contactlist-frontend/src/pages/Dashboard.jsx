@@ -6,6 +6,7 @@ import EmptyContactDetails from "../components/EmptyContactDetails";
 import ContactDetails from "../components/ContactDetails";
 import CreateContact from "../components/CreateContact";
 
+
 export default function Dashboard() {
   const styles = {
     display: "flex",
@@ -88,6 +89,7 @@ export default function Dashboard() {
             <ContactDetails
               contact={selectedContact}
               onUpdate={fetchContacts}
+              onClearSelected={() => setSelectedContact(null)}
             />
           ) : (
             <EmptyContactDetails />
