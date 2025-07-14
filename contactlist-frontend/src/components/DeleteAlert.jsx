@@ -26,7 +26,7 @@ export default function DeleteAlert(props) {
 
   return (
     <button className="btn btn-warning" onClick={deleteItem}>
-      Delete Contact
+      Delete {props.type}
     </button>
   );
 }

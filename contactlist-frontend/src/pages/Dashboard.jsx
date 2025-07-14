@@ -5,7 +5,7 @@ import ContactCard from "../components/ContactCard";
 import EmptyContactDetails from "../components/EmptyContactDetails";
 import ContactDetails from "../components/ContactDetails";
 import CreateContact from "../components/CreateContact";
-
+import { handleLogout } from "../utils/logout";
 
 export default function Dashboard() {
   const styles = {
@@ -55,10 +55,7 @@ export default function Dashboard() {
     fetchContacts();
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    navigate("/");
-  };
+
 
   const handleCardClick = (contact) => {
     setSelectedContact(contact);
@@ -68,7 +65,7 @@ export default function Dashboard() {
       <h2>Dashboard</h2>
       <CreateContact onUpdate={(newId) => fetchContacts(newId)} />
        <button onClick={() => navigate('/dashboard/userProfile')}>User Profile</button>
-      <button onClick={handleLogout}>Logout</button>
+      <button onClick={() => handleLogout(navigate)}>Logout</button>
       <div className="dashboard-content" style={styles}>
         <div className="contactCards">
           {contacts.length > 0 ? (
