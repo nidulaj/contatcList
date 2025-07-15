@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import { handleLogout } from "../utils/logout";
 import { useNavigate } from "react-router-dom";
 import DeleteAlert from "../components/DeleteAlert";
+import { authFetch } from "../utils/authFetch";
 
 export default function UserProfile() {
   const [userData, setUserData] = React.useState(null);
@@ -13,10 +14,10 @@ export default function UserProfile() {
   const fetchUserData = () => {
     const token = localStorage.getItem("accessToken");
 
-    axios
-      .get("http://localhost:5000/auth/profile", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+    authFetch({
+      method : 'get',
+      url: 'http://localhost:5000/auth/profile',
+    })
       .then((res) => {
         setUserData(res.data.message);
       })
@@ -33,11 +34,11 @@ export default function UserProfile() {
     const token = localStorage.getItem("accessToken");
 
     try {
-      await axios.delete(`http://localhost:5000/auth/profile`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await authFetch({
+      method: "delete",
+      url: `http://localhost:5000/auth/profile`,
+    });
+
 
       Swal.fire({
         title: "Success!",

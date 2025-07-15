@@ -11,8 +11,11 @@ const login = async (req, res) => {
             return res.status(401).json({message: 'Invalid credentials'})
         }
 
-        const accessToken = jwt.sign({ username: user.username }, process.env.ACCESS_TOKEN_SECRET);
-        res.json({ accessToken });
+        const accessToken = jwt.sign({ username: user.username }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10s' });
+        const refreshToken = jwt.sign({ username: user.username }, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '7d', });
+        res.json({ accessToken , refreshToken});
+        console.log("Access Token:", accessToken);
+console.log("Refresh Token:", refreshToken);
     } catch(err){
         console.error('Login Error:', err);
         res.status(500).json({error:'Server error'})
@@ -80,4 +83,24 @@ const deleteProfile = async (req, res) => {
     }
 }
 
-module.exports = {login, register, getUserInfo, updateProfile, deleteProfile}
+const refreshToken = (req, res) => {
+    const {refreshToken} = req.body
+
+    if(!refreshToken){
+        return res.status(401).json({message : "Refresh token is missing"})
+    }
+
+   jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403);
+    console.log("New access token generated")
+    const accessToken = jwt.sign(
+      { username: user.username },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: '15m' }
+    );
+    res.json({ accessToken });
+  });
+
+}
+
+module.exports = {login, register, getUserInfo, updateProfile, deleteProfile, refreshToken}

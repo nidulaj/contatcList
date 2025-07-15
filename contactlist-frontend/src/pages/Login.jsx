@@ -23,6 +23,7 @@ export default function Login({setIsLoggedIn}) {
       );
 
       localStorage.setItem("accessToken", res.data.accessToken); 
+      localStorage.setItem("refreshToken", res.data.refreshToken);
       setIsLoggedIn(true)
       navigate('/dashboard')
     } catch (err) {

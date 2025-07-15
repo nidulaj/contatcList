@@ -1,7 +1,7 @@
 import React from "react";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
-import axios from "axios";
+import { authFetch } from "../utils/authFetch";
 import Swal from "sweetalert2";
 
 export default function CreateContact({ onUpdate }) {
@@ -18,15 +18,11 @@ export default function CreateContact({ onUpdate }) {
     e.preventDefault();
     const token = localStorage.getItem("accessToken");
     try {
-      const res = await axios.post(
-        `http://localhost:5000/contact/newContact`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const res = await authFetch({
+            method: "post",
+            url: `http://localhost:5000/contact/newContact`,
+            data : formData
+          });
       console.log("Created: ", res.data);
       close();
       Swal.fire({
