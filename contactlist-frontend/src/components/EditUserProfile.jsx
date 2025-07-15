@@ -1,7 +1,7 @@
 import React from "react";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
-import axios from "axios";
+import { authFetch } from "../utils/authFetch";
 import Swal from "sweetalert2";
 
 export default function EditUserProfile({ userData, onUpdate }) {
@@ -19,15 +19,12 @@ export default function EditUserProfile({ userData, onUpdate }) {
     e.preventDefault();
     const token = localStorage.getItem("accessToken");
     try {
-      const res = await axios.put(
-        `http://localhost:5000/auth/profile`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const res = await await authFetch({
+      method: "put",
+      url: `http://localhost:5000/auth/profile`,
+      data: formData
+    });
+
       console.log("Updated: ", res.data);
       close();
       Swal.fire({

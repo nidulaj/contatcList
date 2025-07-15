@@ -6,6 +6,7 @@ import EmptyContactDetails from "../components/EmptyContactDetails";
 import ContactDetails from "../components/ContactDetails";
 import CreateContact from "../components/CreateContact";
 import { handleLogout } from "../utils/logout";
+import { authFetch } from "../utils/authFetch";
 
 export default function Dashboard() {
   const styles = {
@@ -19,12 +20,10 @@ export default function Dashboard() {
 
   const fetchContacts = (newContactId = null) => {
     const token = localStorage.getItem("accessToken");
-    axios
-      .post(
-        "http://localhost:5000/contact/",
-        {},
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
+    authFetch({
+      method: "post",
+      url: "http://localhost:5000/contact/",
+    })
       .then((res) => {
         const updatedContacts = res.data.contacts;
         setContacts(updatedContacts);
@@ -55,8 +54,6 @@ export default function Dashboard() {
     fetchContacts();
   }, []);
 
-
-
   const handleCardClick = (contact) => {
     setSelectedContact(contact);
   };
@@ -64,7 +61,9 @@ export default function Dashboard() {
     <>
       <h2>Dashboard</h2>
       <CreateContact onUpdate={(newId) => fetchContacts(newId)} />
-       <button onClick={() => navigate('/dashboard/userProfile')}>User Profile</button>
+      <button onClick={() => navigate("/dashboard/userProfile")}>
+        User Profile
+      </button>
       <button onClick={() => handleLogout(navigate)}>Logout</button>
       <div className="dashboard-content" style={styles}>
         <div className="contactCards">

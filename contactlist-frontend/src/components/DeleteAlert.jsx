@@ -1,5 +1,3 @@
-// src/components/DeleteButton.jsx
-import React from "react";
 import Swal from "sweetalert2";
 
 export default function DeleteAlert(props) {

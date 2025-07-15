@@ -1,20 +1,16 @@
 import EditContact from "./EditContact";
 import DeleteAlert from "./DeleteAlert";
-import axios from "axios";
+import { authFetch } from "../utils/authFetch";
 
 export default function ContactDetails({ contact, onUpdate, onClearSelected }) {
   const handleDelete = async () => {
     const token = localStorage.getItem("accessToken");
 
     try {
-      await axios.delete(
-        `http://localhost:5000/contact/${contact.contact_id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await authFetch({
+      method: "delete",
+      url: `http://localhost:5000/contact/${contact.contact_id}`,
+    });
       if (onUpdate) onUpdate();
       if (onClearSelected) onClearSelected();
 
