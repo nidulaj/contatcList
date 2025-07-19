@@ -56,6 +56,34 @@ export default function UserProfile() {
       });
     }
   };
+
+  const toggle2FA = async () => {
+    try{
+      await authFetch({
+        method: "post",
+        url: "http://localhost:5000/auth/toggle-2fa",
+      })
+
+      Swal.fire({
+        title: "Updated!",
+        text: "Two-factor authentication setting has been changed.",
+        icon: "success",
+        confirmButtonText: "OK",
+      });
+
+
+    }catch(err){
+      console.error("2FA toggle error:", err.response?.data || err.message);
+
+      Swal.fire({
+        title: "Error",
+        text: "Failed to toggle 2FA",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    }
+  }
+
   return (
     <div>
       <h1>User Profile</h1>
@@ -73,6 +101,9 @@ export default function UserProfile() {
           <p>
             <strong>Username:</strong> {userData.username}
           </p>
+          <button onClick={toggle2FA}>
+            {userData.two_fa_enabled ? "Disable 2FA" : "Enable 2FA"}
+          </button>
           <EditUserProfile userData={userData} onUpdate={fetchUserData} />
           <DeleteAlert handleDelete={handleDelete} type="Profile" />
         </div>

@@ -2,13 +2,13 @@ import React from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 
-export default function Login({setIsLoggedIn}) {
+export default function Login({ setIsLoggedIn }) {
   const [credentials, setCredentials] = React.useState({
     username: "",
     password: "",
   });
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -22,10 +22,15 @@ export default function Login({setIsLoggedIn}) {
         credentials
       );
 
-      localStorage.setItem("accessToken", res.data.accessToken); 
-      localStorage.setItem("refreshToken", res.data.refreshToken);
-      setIsLoggedIn(true)
-      navigate('/dashboard')
+      if (res.data.is2FAEnabled) {
+        localStorage.setItem("tempToken", res.data.tempToken);
+        navigate("/verify2FA");
+      } else {
+        localStorage.setItem("accessToken", res.data.accessToken);
+        localStorage.setItem("refreshToken", res.data.refreshToken);
+        setIsLoggedIn(true);
+        navigate("/dashboard");
+      }
     } catch (err) {
       console.error("Login error:", err);
       alert("Invalid credentials");
@@ -51,7 +56,9 @@ export default function Login({setIsLoggedIn}) {
         <br />
         <button type="submit">Login</button>
       </form>
-      <p>Don't have an account? <Link to="/register">Register</Link></p>
+      <p>
+        Don't have an account? <Link to="/register">Register</Link>
+      </p>
     </div>
   );
 }
