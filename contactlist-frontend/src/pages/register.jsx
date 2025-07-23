@@ -176,50 +176,5 @@ export default function Register() {
         </p>
       </div>
     </div>
-
-    // <div>
-    //   <h2>Register</h2>
-    //   <form onSubmit={handleSubmit}>
-    //     <input
-    //       type="text"
-    //       name="firstName"
-    //       placeholder="First Name"
-    //       onChange={handleChange}
-    //     />
-    //     <br />
-    //     <input
-    //       type="text"
-    //       name="lastName"
-    //       placeholder="Last Name"
-    //       onChange={handleChange}
-    //     />
-    //     <br />
-    //     <input
-    //       type="email"
-    //       name="email"
-    //       placeholder="Email"
-    //       onChange={handleChange}
-    //     />
-    //     <br />
-    //     <input
-    //       type="text"
-    //       name="username"
-    //       placeholder="Username"
-    //       onChange={handleChange}
-    //     />
-    //     <br />
-    //     <input
-    //       type="password"
-    //       name="password"
-    //       placeholder="Password"
-    //       onChange={handleChange}
-    //     />
-    //     <br />
-    //     <button type="submit">Register</button>
-    //     <p>
-    //       Already have an account? <Link to="/">Login</Link>
-    //     </p>
-    //   </form>
-    // </div>
   );
 }
