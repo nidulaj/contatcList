@@ -124,29 +124,5 @@ export default function Login({ setIsLoggedIn }) {
         </p>
       </div>
     </div>
-
-    // <div>
-    //   <h2 class="text-3xl font-semibold text-center text-gray-800 mb-6">Login</h2>
-    //   <form onSubmit={handleSubmit}>
-    //     <input
-    //       type="text"
-    //       name="username"
-    //       placeholder="Username"
-    //       onChange={handleChange}
-    //     />
-    //     <br />
-    //     <input
-    //       type="password"
-    //       name="password"
-    //       placeholder="Password"
-    //       onChange={handleChange}
-    //     />
-    //     <br />
-    //     <button type="submit">Login</button>
-    //   </form>
-    //   <p>
-    //     Don't have an account? <Link to="/register">Register</Link>
-    //   </p>
-    // </div>
   );
 }
