@@ -37,7 +37,7 @@ export default function Login({ setIsLoggedIn }) {
     }
   };
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8-container">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
           alt="Your Company"
@@ -125,28 +125,5 @@ export default function Login({ setIsLoggedIn }) {
       </div>
     </div>
 
-    // <div>
-    //   <h2 class="text-3xl font-semibold text-center text-gray-800 mb-6">Login</h2>
-    //   <form onSubmit={handleSubmit}>
-    //     <input
-    //       type="text"
-    //       name="username"
-    //       placeholder="Username"
-    //       onChange={handleChange}
-    //     />
-    //     <br />
-    //     <input
-    //       type="password"
-    //       name="password"
-    //       placeholder="Password"
-    //       onChange={handleChange}
-    //     />
-    //     <br />
-    //     <button type="submit">Login</button>
-    //   </form>
-    //   <p>
-    //     Don't have an account? <Link to="/register">Register</Link>
-    //   </p>
-    // </div>
   );
 }
