@@ -7,6 +7,7 @@ import ContactDetails from "../components/ContactDetails";
 import CreateContact from "../components/CreateContact";
 import { handleLogout } from "../utils/logout";
 import { authFetch } from "../utils/authFetch";
+import Header from "../components/Header";
 
 export default function Dashboard() {
   const styles = {
@@ -59,6 +60,7 @@ export default function Dashboard() {
   };
   return (
     <>
+    <Header />
       <h2>Dashboard</h2>
       <CreateContact onUpdate={(newId) => fetchContacts(newId)} />
       <button onClick={() => navigate("/dashboard/userProfile")}>

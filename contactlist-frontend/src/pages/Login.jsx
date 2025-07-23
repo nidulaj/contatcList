@@ -124,6 +124,5 @@ export default function Login({ setIsLoggedIn }) {
         </p>
       </div>
     </div>
-
   );
 }
