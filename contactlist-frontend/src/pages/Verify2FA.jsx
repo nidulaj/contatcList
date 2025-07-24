@@ -35,15 +35,29 @@ export default function Verify2FA({ setIsLoggedIn }) {
   };
 
   return(
-    <div>
-      <h2>Two-Factor Authentication</h2>
-      <input
-        type="text"
-        placeholder="Enter your 2FA code"
-        value={code}
-        onChange={(e) => setCode(Number(e.target.value))}
-      />
-      <button onClick={handleVerify}>Verify</button>
-    </div>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
+  <div className="max-w-md w-full p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md space-y-4">
+    <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+      Two-Factor Authentication
+    </h2>
+
+    <input
+      type="text"
+      placeholder="Enter your 2FA code"
+      value={code}
+      onChange={(e) => setCode(Number(e.target.value))}
+      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+    />
+
+    <button
+      onClick={handleVerify}
+      className="w-full px-4 py-2 text-white bg-indigo-600 hover:bg-indigo-700 rounded-md transition"
+    >
+      Verify
+    </button>
+  </div>
+</div>
+
+
   )
 }

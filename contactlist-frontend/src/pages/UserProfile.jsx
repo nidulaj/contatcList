@@ -6,8 +6,9 @@ import { handleLogout } from "../utils/logout";
 import { useNavigate } from "react-router-dom";
 import DeleteAlert from "../components/DeleteAlert";
 import { authFetch } from "../utils/authFetch";
+import Header from "../components/Header";
 
-export default function UserProfile() {
+export default function UserProfile({ darkMode, toggleDarkMode }) {
   const [userData, setUserData] = React.useState(null);
 
   const navigate = useNavigate();
@@ -15,8 +16,8 @@ export default function UserProfile() {
     const token = localStorage.getItem("accessToken");
 
     authFetch({
-      method : 'get',
-      url: 'http://localhost:5000/auth/profile',
+      method: "get",
+      url: "http://localhost:5000/auth/profile",
     })
       .then((res) => {
         setUserData(res.data.message);
@@ -35,10 +36,9 @@ export default function UserProfile() {
 
     try {
       await authFetch({
-      method: "delete",
-      url: `http://localhost:5000/auth/profile`,
-    });
-
+        method: "delete",
+        url: `http://localhost:5000/auth/profile`,
+      });
 
       Swal.fire({
         title: "Success!",
@@ -57,34 +57,52 @@ export default function UserProfile() {
     }
   };
 
-
-
   return (
-    <div>
-      <h1>User Profile</h1>
-      {userData ? (
-        <div>
-          <p>
-            <strong>First Name:</strong> {userData.firstName}
+    <>
+    <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center p-6">
+      <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-8 max-w-xl w-full">
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
+          User Profile
+        </h1>
+        {userData ? (
+          <div className="space-y-4">
+            <div className="flex justify-center mb-4">
+              <img
+                src="/src/assets/user.png"
+                alt="User"
+                className="w-32 h-32 rounded-full border-4 border-indigo-500 shadow-md object-cover"
+              />
+            </div>
+            <p className="text-gray-700 dark:text-gray-200">
+              <strong className="font-semibold">First Name:</strong>{" "}
+              {userData.firstName}
+            </p>
+            <p className="text-gray-700 dark:text-gray-200">
+              <strong className="font-semibold">Last Name:</strong>{" "}
+              {userData.lastName}
+            </p>
+            <p className="text-gray-700 dark:text-gray-200">
+              <strong className="font-semibold">Email:</strong> {userData.email}
+            </p>
+            <p className="text-gray-700 dark:text-gray-200">
+              <strong className="font-semibold">Username:</strong>{" "}
+              {userData.username}
+            </p>
+
+            {/* Edit & Delete Buttons */}
+            <div className="mt-6 space-y-4">
+              <EditUserProfile userData={userData} onUpdate={fetchUserData} />
+              <DeleteAlert handleDelete={handleDelete} type="Profile" />
+            </div>
+          </div>
+        ) : (
+          <p className="text-gray-500 dark:text-gray-400">
+            Loading user data...
           </p>
-          <p>
-            <strong>Last Name:</strong> {userData.lastName}
-          </p>
-          <p>
-            <strong>Email:</strong> {userData.email}
-          </p>
-          <p>
-            <strong>Username:</strong> {userData.username}
-          </p>
-          <button onClick={toggle2FA}>
-            {userData.two_fa_enabled ? "Disable 2FA" : "Enable 2FA"}
-          </button>
-          <EditUserProfile userData={userData} onUpdate={fetchUserData} />
-          <DeleteAlert handleDelete={handleDelete} type="Profile" />
-        </div>
-      ) : (
-        <p>Loading user data...</p>
-      )}
+        )}
+      </div>
     </div>
+    </>
   );
 }

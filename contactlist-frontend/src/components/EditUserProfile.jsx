@@ -7,7 +7,6 @@ import Swal from "sweetalert2";
 export default function EditUserProfile({ userData, onUpdate }) {
   const [formData, setFormData] = React.useState({ ...userData });
 
-
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -20,10 +19,10 @@ export default function EditUserProfile({ userData, onUpdate }) {
     const token = localStorage.getItem("accessToken");
     try {
       const res = await await authFetch({
-      method: "put",
-      url: `http://localhost:5000/auth/profile`,
-      data: formData
-    });
+        method: "put",
+        url: `http://localhost:5000/auth/profile`,
+        data: formData,
+      });
 
       console.log("Updated: ", res.data);
       close();
@@ -46,48 +45,88 @@ export default function EditUserProfile({ userData, onUpdate }) {
   };
 
   return (
-    <Popup trigger={<button>Edit Profile</button>} modal nested>
+    <Popup
+      trigger={
+        <button className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 transition mr-[10px]">
+          Edit Profile
+        </button>
+      }
+      modal
+      nested
+    >
       {(close) => (
-        <div
-          style={{ padding: "20px", background: "#fff", borderRadius: "10px" }}
-        >
-          <h3>Edit User Profile</h3>
-          <form onSubmit={(e) => handleSubmit(e, close)}>
-            <input
-              name="firstName"
-              type="text"
-              value={formData.firstName}
-              onChange={handleChange}
-              placeholder="First Name"
-            />
-            <input
-              name="lastName"
-              type="text"
-              value={formData.lastName}
-              onChange={handleChange}
-              placeholder="Last Name"
-            />
-            <input
-              name="email"
-              type="text"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Email"
-            />
-            <input
-              name="username"
-              type="text"
-              value={formData.username}
-              onChange={handleChange}
-              placeholder="Email"
-              disabled
-            />
-            
-            <button type="submit">Save</button>
-            <button type="button" onClick={close}>
-              Cancel
-            </button>
-          </form>
+        <div className="bg-white dark:bg-gray-900 rounded-lg p-6 w-full max-w-4xl shadow-md transition">
+          <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">
+            Edit User Profile
+          </h3>
+
+          <div className="flex gap-8">
+            {/* Left - Avatar */}
+            <div className="w-1/2 flex justify-center items-center">
+              <img
+                src="/src/assets/user.png"
+                alt="User"
+                className="w-48 h-48 rounded-full object-cover border-2 border-indigo-600"
+              />
+            </div>
+
+            {/* Right - Form */}
+            <form
+              onSubmit={(e) => handleSubmit(e, close)}
+              className="w-1/2 space-y-4"
+            >
+              <input
+                name="firstName"
+                type="text"
+                value={formData.firstName}
+                onChange={handleChange}
+                placeholder="First Name"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
+              <input
+                name="lastName"
+                type="text"
+                value={formData.lastName}
+                onChange={handleChange}
+                placeholder="Last Name"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
+              <input
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Email"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
+              <input
+                name="username"
+                type="text"
+                value={formData.username}
+                onChange={handleChange}
+                placeholder="Username"
+                disabled
+                className="w-full px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-md bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-400 cursor-not-allowed"
+              />
+
+              {/* Buttons */}
+              <div className="flex justify-end gap-3 pt-4">
+                <button
+                  type="button"
+                  onClick={close}
+                  className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-gray-700 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 transition"
+                >
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       )}
     </Popup>
