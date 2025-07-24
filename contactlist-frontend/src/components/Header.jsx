@@ -1,10 +1,14 @@
 import React from "react";
 import { authFetch } from "../utils/authFetch";
 import Settings from "./Settings";
+import { handleLogout } from "../utils/logout";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
   const [firstName, setFirstName] = React.useState(null);
   const [showSettings, setShowSettings] = React.useState(false);
+
+  const navigate = useNavigate();
 
   const fetchFirstName = () => {
     const token = localStorage.getItem("accessToken");
@@ -38,6 +42,7 @@ export default function Header() {
           src="/src/assets/user.png"
           alt="User"
           className="w-10 h-10 rounded-full object-cover"
+          onClick={() => navigate("/dashboard/userProfile")}
         />
 
         <span className="text-gray-700 font-medium">Welcome {firstName}</span>
@@ -49,7 +54,7 @@ export default function Header() {
           Settings
         </button>
 
-        <button className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded transition">
+        <button className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded transition" onClick={() => handleLogout(navigate)}>
           Log out
         </button>
       </div>
