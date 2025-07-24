@@ -7,7 +7,6 @@ import Swal from "sweetalert2";
 export default function EditContact({ contact, onUpdate }) {
   const [formData, setFormData] = React.useState({ ...contact });
 
-
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -18,12 +17,13 @@ export default function EditContact({ contact, onUpdate }) {
   const handleSubmit = async (e, close) => {
     e.preventDefault();
     const token = localStorage.getItem("accessToken");
+
     try {
       const res = await authFetch({
-      method: "put",
-      url: `http://localhost:5000/contact/${contact.contact_id}`,
-      data: formData
-    });
+        method: "put",
+        url: `http://localhost:5000/contact/${contact.contact_id}`,
+        data: formData,
+      });
 
       console.log("Updated: ", res.data);
       close();
@@ -46,53 +46,94 @@ export default function EditContact({ contact, onUpdate }) {
   };
 
   return (
-    <Popup trigger={<button>Edit</button>} modal nested>
+    <Popup
+      trigger={
+        <button className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 transition">
+          Edit
+        </button>
+      }
+      modal
+      nested
+    >
       {(close) => (
-        <div
-          style={{ padding: "20px", background: "#fff", borderRadius: "10px" }}
-        >
-          <h3>Edit Contact</h3>
-          <form onSubmit={(e) => handleSubmit(e, close)}>
-            <input
-              name="firstName"
-              type="text"
-              value={formData.firstName}
-              onChange={handleChange}
-              placeholder="First Name"
-            />
-            <input
-              name="lastName"
-              type="text"
-              value={formData.lastName}
-              onChange={handleChange}
-              placeholder="Last Name"
-            />
-            <input
-              name="phoneNumber"
-              type="number"
-              value={formData.phoneNumber}
-              onChange={handleChange}
-              placeholder="Phone Number"
-            />
-            <input
-              name="email"
-              type="text"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Email"
-            />
-            <input
-              name="birthday"
-              type="date"
-              value={new Date(formData.birthday).toISOString().split("T")[0]}
-              onChange={handleChange}
-              placeholder="Birthday"
-            />
-            <button type="submit">Save</button>
-            <button type="button" onClick={close}>
-              Cancel
-            </button>
-          </form>
+        <div className="bg-white dark:bg-gray-900 rounded-lg p-6 w-full max-w-4xl shadow-md transition">
+          <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">
+            Edit Contact
+          </h3>
+
+          <div className="flex gap-8">
+            {/* Left half - Image */}
+            <div className="w-1/2 flex flex-col justify-center items-center">
+              <img
+                src="/src/assets/user.png"
+                alt="User"
+                className="w-48 h-48 rounded-full object-cover border-2 border-indigo-600"
+              />
+            </div>
+
+            {/* Right half - Form */}
+            <form
+              onSubmit={(e) => handleSubmit(e, close)}
+              className="w-1/2 space-y-4"
+            >
+              <input
+                name="firstName"
+                type="text"
+                value={formData.firstName}
+                onChange={handleChange}
+                placeholder="First Name"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
+              <input
+                name="lastName"
+                type="text"
+                value={formData.lastName}
+                onChange={handleChange}
+                placeholder="Last Name"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
+              <input
+                name="phoneNumber"
+                type="number"
+                value={formData.phoneNumber}
+                onChange={handleChange}
+                placeholder="Phone Number"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
+              <input
+                name="email"
+                type="text"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Email"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
+              <input
+                name="birthday"
+                type="date"
+                value={new Date(formData.birthday).toISOString().split("T")[0]}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
+
+              {/* Buttons */}
+              <div className="flex justify-end gap-3 pt-4">
+                <button
+                  type="button"
+                  onClick={close}
+                  className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-gray-700 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 transition"
+                >
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       )}
     </Popup>
