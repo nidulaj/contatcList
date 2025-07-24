@@ -1,8 +1,40 @@
 import React from 'react'
+import Swal from "sweetalert2";
+import { authFetch } from "../utils/authFetch";
 
-export default function Settings() {
-  const [twoFA, setTwoFA] = React.useState(false);
+export default function Settings({twoFAEnabled}) {
+  const [twoFA, setTwoFA] = React.useState(twoFAEnabled);
   const [darkMode, setDarkMode] = React.useState(false);
+
+    const toggle2FA = async () => {
+      try{
+        await authFetch({
+          method: "post",
+          url: "http://localhost:5000/auth/toggle-2fa",
+        })
+
+        setTwoFA(prev => !prev);
+  
+        Swal.fire({
+          title: "Updated!",
+          text: "Two-factor authentication setting has been changed.",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+  
+  
+      }catch(err){
+        console.error("2FA toggle error:", err.response?.data || err.message);
+  
+        Swal.fire({
+          title: "Error",
+          text: "Failed to toggle 2FA",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      }
+    }
+
   return (
     <div className="absolute top-16 right-6 bg-white shadow-lg rounded-lg p-4 w-80 z-50">
       <h2 className="text-lg font-semibold mb-4 text-indigo-600">Settings</h2>
@@ -17,7 +49,7 @@ export default function Settings() {
         <li className="flex justify-between items-center px-3 py-2 rounded-md hover:opacity-80 hover:scale-[1.01] transition">
           <span className="text-gray-800">Two-Factor Authentication</span>
           <button
-            onClick={() => setTwoFA(!twoFA)}
+            onClick={toggle2FA}
             className={`w-12 h-6 rounded-full flex items-center px-1 transition-colors duration-300 ${
               twoFA ? "bg-indigo-600" : "bg-gray-300"
             }`}
@@ -32,7 +64,7 @@ export default function Settings() {
         <li className="flex justify-between items-center px-3 py-2 rounded-md hover:opacity-80 hover:scale-[1.01] transition">
           <span className="text-gray-800">Dark Mode</span>
           <button
-            onClick={() => setDarkMode(!darkMode)}
+            onClick={() => setDarkMode((prev) => !prev)}
             className={`w-12 h-6 rounded-full flex items-center px-1 transition-colors duration-300 ${
               darkMode ? "bg-indigo-600" : "bg-gray-300"
             }`}
