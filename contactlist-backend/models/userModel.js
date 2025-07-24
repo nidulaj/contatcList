@@ -65,12 +65,11 @@ const get2FAStatus = async (username) => {
 }
 
 const change2FAStatus = async (status, username) => {
-    const newStatus = !status.two_fa_enabled;
-    const query = 'UPDATE "user" SET "two_fa_enabled" = $1 WHERE username = $2'
+   const newStatus = !status.two_fa_enabled;
+    const query = 'UPDATE "user" SET "two_fa_enabled" = $1 WHERE username = $2 RETURNING "two_fa_enabled"'
     const values = [newStatus, username]
     const result = await db.query(query, values)
-    console.log("test, username",username,"and new status", newStatus)
-    return result.rows[0]
+    return result.rows[0].two_fa_enabled;
 }
 
 

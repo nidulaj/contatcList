@@ -150,9 +150,8 @@ const toggle2FA= async (req, res) => {
     try{
         const username = req.user.username
         const status = await get2FAStatus(username);
-        const changedStatus = await change2FAStatus(status, username)
-
-        res.json({ message: `2FA ${changedStatus ? 'enabled' : 'disabled'}` })
+         const newStatus = await change2FAStatus(status, username);
+        res.json({ success: true, twoFAEnabled: newStatus });
 
     } catch(err){
         console.error('2FA toggle error:', err)

@@ -5,33 +5,34 @@ import { handleLogout } from "../utils/logout";
 import { useNavigate } from "react-router-dom";
 
 export default function Header() {
-  const [firstName, setFirstName] = React.useState(null);
+ const [userData, setUserData] = React.useState(null);
   const [showSettings, setShowSettings] = React.useState(false);
 
   const navigate = useNavigate();
 
-  const fetchFirstName = () => {
+  const fetchUserData = () => {
     const token = localStorage.getItem("accessToken");
 
     authFetch({
-      method: "get",
-      url: "http://localhost:5000/auth/profile",
-    })
-      .then((res) => {
-        setFirstName(res.data.message.firstName);
-      })
-      .catch((err) => {
-        console.error("Header load error:", err);
-      });
-  };
+          method : 'get',
+          url: 'http://localhost:5000/auth/profile',
+        })
+          .then((res) => {
+            setUserData(res.data.message);
+            console.log(res.data.message)
+          })
+          .catch((err) => {
+            console.error("header load error:", err);
+          });
+      };
+      React.useEffect(() => {
+        fetchUserData();
+      }, []);
+    
 
   const toggleSettings = () => {
     setShowSettings((prev) => !prev);
   };
-
-  React.useEffect(() => {
-    fetchFirstName();
-  }, []);
 
   return (
     <div className="bg-white shadow-md px-6 py-4 flex items-center justify-between">
@@ -45,7 +46,7 @@ export default function Header() {
           onClick={() => navigate("/dashboard/userProfile")}
         />
 
-        <span className="text-gray-700 font-medium">Welcome {firstName}</span>
+        <span className="text-gray-700 font-medium">Welcome {userData ? userData.firstName : ""}</span>
 
         <button
           onClick={toggleSettings}
@@ -58,7 +59,7 @@ export default function Header() {
           Log out
         </button>
       </div>
-      {showSettings && <Settings />}
+      {showSettings && <Settings twoFAEnabled={userData.two_fa_enabled} />}
     </div>
   );
 }
