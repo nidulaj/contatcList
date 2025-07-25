@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
-const {findUserByCredentials, createUser, findUserByUsername, updateUser, deleteUser, send2FACodeToDB, get2FA, delete2FA, get2FAStatus, change2FAStatus} = require('../models/userModel')
-const {send2FACode } = require('../utils/mailer');
+const {findUserByCredentials, createUser, findUserByUsername, updateUser, deleteUser, send2FACodeToDB, get2FA, delete2FA, get2FAStatus, change2FAStatus, emailVerification} = require('../models/userModel')
+const {send2FACode, sendVerificationLink} = require('../utils/mailer');
 
 const login = async (req, res) => {
     const {username, password} = req.body
@@ -9,11 +9,15 @@ const login = async (req, res) => {
         const user = await findUserByCredentials(username, password)
 
         if(!user){
-            return res.status(401).json({ message: "User not found" });
+            return res.status(401).json({ message: "User not found" ,userNotFound: true});
         }
 
         if(user.password !== password){
-            return res.status(401).json({ message: "Invalid password" });
+            return res.status(401).json({ message: "Invalid password", invalidPassword: true });
+        }
+
+        if (!user.is_verified) {
+            return res.status(403).json({ message: 'Please verify your email first.', isVerified: false});
         }
 
         if(user.two_fa_enabled){
@@ -43,12 +47,20 @@ const register = async (req, res) => {
     const {firstName, lastName, email, username, password} = req.body
 
     try{
+        console.log("start register")
         const existingUser = await findUserByUsername(username)
         if(existingUser){
+            console.log("exisiting user")
             return res.status(409).json({message: "Username is already registered. Try another username."})
         }
 
         const newUser = await createUser(firstName, lastName, email, username, password)
+        
+        const emailToken = jwt.sign({ username: username }, process.env.EMAIL_TOKEN_SECRET, { expiresIn: '1d' });
+        console.log("token", emailToken)
+        const verificationLink = `http://localhost:5000/auth/verify-email?token=${emailToken}`;
+        await sendVerificationLink(newUser.email, verificationLink);
+        console.log("link",verificationLink)
         res.status(201).json({message: "User registered successfully", user : newUser})
     } catch(err){
         console.error('Register Error:', err);
@@ -160,4 +172,18 @@ const toggle2FA= async (req, res) => {
 
 }
 
-module.exports = {login, register, getUserInfo, updateProfile, deleteProfile, refreshToken, verify2FA, toggle2FA}
+const verifyEmail = async (req, res) => {
+    const token = req.query.token;
+
+    try{
+        const decoded = jwt.verify(token, process.env.EMAIL_TOKEN_SECRET);
+        const username = decoded.username;
+        await emailVerification(username)
+        res.redirect('http://localhost:5173/verify-email');
+
+    }catch (err) {
+        res.status(400).json({ message: 'Invalid or expired token' });
+  }
+}
+
+module.exports = {login, register, getUserInfo, updateProfile, deleteProfile, refreshToken, verify2FA, toggle2FA, verifyEmail}

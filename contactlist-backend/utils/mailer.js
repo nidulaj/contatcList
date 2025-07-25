@@ -17,5 +17,14 @@ const send2FACode = async (email, code) => {
     })
 }
 
-module.exports = {send2FACode}
+const sendVerificationLink = async (email,verificationLink) => {
+    await transporter.sendMail({
+        from: `"Contact List App" <${process.env.EMAIL_USER}>`,
+        to: email,
+        subject: 'Verify Your Email',
+        html: `<p>Click the link to verify your email:</p><a href="${verificationLink}">${verificationLink}</a>`,
+    })
+}
+
+module.exports = {send2FACode, sendVerificationLink}
 

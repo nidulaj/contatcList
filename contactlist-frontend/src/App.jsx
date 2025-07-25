@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import UserProfile from './pages/UserProfile';
 import Verify2FA from './pages/Verify2FA';
+import VerifyEmail from './pages/VerifyEmail';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
@@ -59,6 +60,8 @@ function App() {
           element={isLoggedIn ? <UserProfile darkMode={darkMode} toggleDarkMode={toggleDarkMode} /> : <Navigate to='/' />}
         />
         <Route path='/verify2FA' element={<Verify2FA setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path="/verify-email" element={<VerifyEmail />} />
+
       </Routes>
     </Router>
   );

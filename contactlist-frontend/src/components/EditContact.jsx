@@ -14,6 +14,10 @@ export default function EditContact({ contact, onUpdate }) {
     }));
   };
 
+  React.useEffect(() => {
+    setFormData({ ...contact });
+  }, [contact]);
+
   const handleSubmit = async (e, close) => {
     e.preventDefault();
     const token = localStorage.getItem("accessToken");

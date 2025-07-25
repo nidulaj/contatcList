@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export default function Login({ setIsLoggedIn }) {
   const [credentials, setCredentials] = React.useState({
@@ -33,7 +34,32 @@ export default function Login({ setIsLoggedIn }) {
       }
     } catch (err) {
       console.error("Login error:", err);
-      alert("Invalid credentials");
+      if (err.response) {
+        const data = err.response.data;
+
+        if (data.userNotFound) {
+          Swal.fire({
+            title: "Oops...!",
+            text: "User not found",
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+        } else if (data.invalidPassword) {
+          Swal.fire({
+            title: "Oops...!",
+            text: "Invalid credentials",
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+        } else if (data.isVerified === false) {
+          Swal.fire({
+            title: "Oops...!",
+            text: "Please verify the email",
+            icon: "error",
+            confirmButtonText: "Resend verification link",
+          });
+        }
+      }
     }
   };
   return (
