@@ -72,5 +72,12 @@ const change2FAStatus = async (status, username) => {
     return result.rows[0].two_fa_enabled;
 }
 
+const emailVerification =  async (username) => {
+    const query = 'UPDATE "user" SET is_verified = true WHERE username = $1'
+    const values = [username]
+    const result = await db.query(query, values)
+    return result.rows[0]
+}
 
-module.exports = {findUserByCredentials, createUser, findUserByUsername, updateUser, deleteUser, send2FACodeToDB, get2FA, delete2FA, get2FAStatus, change2FAStatus}
+
+module.exports = {findUserByCredentials, createUser, findUserByUsername, updateUser, deleteUser, send2FACodeToDB, get2FA, delete2FA, get2FAStatus, change2FAStatus, emailVerification}

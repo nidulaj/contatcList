@@ -28,7 +28,7 @@ export default function Register() {
 
       Swal.fire({
         title: "Success!",
-        text: "Your account was created successfully.",
+        text: "Your account was created successfully. Please verfity your email",
         icon: "success",
         confirmButtonText: "OK",
       }).then(() => {
