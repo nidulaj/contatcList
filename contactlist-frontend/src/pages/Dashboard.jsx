@@ -11,6 +11,8 @@ import Header from "../components/Header";
 export default function Dashboard({ darkMode, toggleDarkMode }) {
   const [contacts, setContacts] = React.useState([]);
   const [selectedContact, setSelectedContact] = React.useState(null);
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const [filteredContacts, setFilteredContacts] = React.useState([]);
   const navigate = useNavigate();
 
   const fetchContacts = (newContactId = null) => {
@@ -22,6 +24,7 @@ export default function Dashboard({ darkMode, toggleDarkMode }) {
       .then((res) => {
         const updatedContacts = res.data.contacts;
         setContacts(updatedContacts);
+        setFilteredContacts(updatedContacts);
 
         if (newContactId) {
           const newOne = updatedContacts.find(
@@ -37,7 +40,9 @@ export default function Dashboard({ darkMode, toggleDarkMode }) {
 
           if (updatedSelected) {
             setSelectedContact(updatedSelected);
+            
           }
+
         }
       })
       .catch((err) => {
@@ -52,6 +57,17 @@ export default function Dashboard({ darkMode, toggleDarkMode }) {
 
   const handleCardClick = (contact) => {
     setSelectedContact(contact);
+  };
+
+  const handleSearch = (e) => {
+    const term = e.target.value;
+    setSearchTerm(term);
+
+    const filtered = contacts.filter((contact) => {
+      const fullName = `${contact.firstName} ${contact.lastName}`.toLowerCase();
+      return fullName.includes(term.toLowerCase());
+    });
+    setFilteredContacts(filtered);
   };
 
   return (
@@ -73,7 +89,8 @@ export default function Dashboard({ darkMode, toggleDarkMode }) {
             <input
               type="text"
               placeholder="Search contacts..."
-              // onChange={handleSearch}
+              value={searchTerm}
+              onChange={handleSearch}
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
           </div>
@@ -81,8 +98,8 @@ export default function Dashboard({ darkMode, toggleDarkMode }) {
           {/* Scrollable Cards */}
           <div className="flex-1 overflow-y-auto">
             <div className="space-y-2 p-2">
-              {contacts.length > 0 ? (
-                contacts.map((contact) => (
+              {filteredContacts.length > 0 ? (
+                filteredContacts.map((contact) => (
                   <div
                     key={contact.contact_id}
                     onClick={() => handleCardClick(contact)}
