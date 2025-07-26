@@ -133,12 +133,10 @@ export default function Login({ setIsLoggedIn }) {
                 Password
               </label>
               <div className="text-sm">
-                <a
-                  href="#"
-                  className="font-semibold text-indigo-600 hover:text-indigo-500"
-                >
-                  Forgot password?
-                </a>
+               <Link to= "/forgot-password" className="font-semibold text-indigo-600 hover:text-indigo-500" >
+                Forgot Password
+               </Link>
+              
               </div>
             </div>
             <div className="mt-2">
@@ -166,7 +164,7 @@ export default function Login({ setIsLoggedIn }) {
         </form>
 
         <p className="mt-10 text-center text-sm text-gray-500 dark:text-gray-400">
-          Don&apos;t have an account?
+          Don't have an account?
           <Link
             to="/register"
             className="font-semibold text-indigo-600 hover:text-indigo-500"

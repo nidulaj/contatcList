@@ -79,5 +79,11 @@ const emailVerification =  async (username) => {
     return result.rows[0]
 }
 
+const updateUserPassword = async (newPassword, username) => {
+    const query = 'UPDATE "user" SET password = $1 WHERE username = $2'
+    const values = [newPassword, username]
+    const result = await db.query(query, values)
+    return result.rows[0]
+}
 
-module.exports = {findUserByCredentials, createUser, findUserByUsername, updateUser, deleteUser, send2FACodeToDB, get2FA, delete2FA, get2FAStatus, change2FAStatus, emailVerification}
+module.exports = {findUserByCredentials, createUser, findUserByUsername, updateUser, deleteUser, send2FACodeToDB, get2FA, delete2FA, get2FAStatus, change2FAStatus, emailVerification, updateUserPassword}

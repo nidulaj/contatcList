@@ -26,5 +26,14 @@ const sendVerificationLink = async (email,verificationLink) => {
     })
 }
 
-module.exports = {send2FACode, sendVerificationLink}
+const sendResetPasswordLink = async (email,resetLink) => {
+    await transporter.sendMail({
+        from: `"Contact List App" <${process.env.EMAIL_USER}>`,
+        to: email,
+        subject: "Reset your password",
+        html: `<p>Click the link below to reset your password:</p> <a href="${resetLink}">Reset Password</a>`,
+    })
+}
+
+module.exports = {send2FACode, sendVerificationLink, sendResetPasswordLink}
 
