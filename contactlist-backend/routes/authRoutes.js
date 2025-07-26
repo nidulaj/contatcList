@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {login, register, getUserInfo, updateProfile, deleteProfile, refreshToken, verify2FA, toggle2FA, verifyEmail} = require('../controllers/authController')
+const {login, register, getUserInfo, updateProfile, deleteProfile, refreshToken, verify2FA, toggle2FA, verifyEmail, resendVerificationLink} = require('../controllers/authController')
 const authenticateToken  = require('../middlewares/authenticateToken')
 const authenticateTempToken = require('../middlewares/authenticateTempToken')
 
@@ -17,5 +17,6 @@ router.post('/verify-2fa', authenticateTempToken, verify2FA)
 router.post('/toggle-2fa', authenticateToken, toggle2FA)
 
 router.get('/verify-email', verifyEmail);
+router.post('/resend-verification', resendVerificationLink);
 
 module.exports = router;
