@@ -186,4 +186,28 @@ const verifyEmail = async (req, res) => {
   }
 }
 
-module.exports = {login, register, getUserInfo, updateProfile, deleteProfile, refreshToken, verify2FA, toggle2FA, verifyEmail}
+const resendVerificationLink  = async (req, res) => {
+    const {username} = req.body
+
+    try{
+        const user = await findUserByUsername(username)
+
+        if(!user){
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        if(user.is_verified){
+            return res.status(400).json({ message: "User already verified" });
+        }
+
+        const emailToken = jwt.sign({ username: username }, process.env.EMAIL_TOKEN_SECRET, { expiresIn: '1d' });
+        const verificationLink = `http://localhost:5000/auth/verify-email?token=${emailToken}`;
+        await sendVerificationLink(user.email, verificationLink);
+        res.status(200).json({ message: "Verification link resent successfully" });
+    } catch (err) {
+        console.error("Resend Error:", err);
+        res.status(500).json({ error: "Server error" });
+  }
+}
+
+module.exports = {login, register, getUserInfo, updateProfile, deleteProfile, refreshToken, verify2FA, toggle2FA, verifyEmail, resendVerificationLink}

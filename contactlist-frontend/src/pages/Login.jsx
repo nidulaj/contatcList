@@ -57,6 +57,33 @@ export default function Login({ setIsLoggedIn }) {
             text: "Please verify the email",
             icon: "error",
             confirmButtonText: "Resend verification link",
+            showCancelButton: true,
+          }).then(async (result) => {
+            if (result.isConfirmed) {
+              try {
+                const resendRes = await axios.post(
+                  "http://localhost:5000/auth/resend-verification",
+                  {
+                    username: credentials.username,
+                  }
+                );
+
+                Swal.fire({
+                  title: "Link sent!",
+                  text:
+                    resendRes.data.message ||
+                    "A new verification link has been sent to your email.",
+                  icon: "success",
+                });
+              } catch (resendError) {
+                console.error("Resend error:", resendError);
+                Swal.fire({
+                  title: "Error",
+                  text: "Failed to resend the verification link.",
+                  icon: "error",
+                });
+              }
+            }
           });
         }
       }
