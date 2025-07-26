@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
-const {findUserByCredentials, createUser, findUserByUsername, updateUser, deleteUser, send2FACodeToDB, get2FA, delete2FA, get2FAStatus, change2FAStatus, emailVerification} = require('../models/userModel')
-const {send2FACode, sendVerificationLink} = require('../utils/mailer');
+const {findUserByCredentials, createUser, findUserByUsername, updateUser, deleteUser, send2FACodeToDB, get2FA, delete2FA, get2FAStatus, change2FAStatus, emailVerification, updateUserPassword} = require('../models/userModel')
+const {send2FACode, sendVerificationLink, sendResetPasswordLink} = require('../utils/mailer');
 
 const login = async (req, res) => {
     const {username, password} = req.body
@@ -210,4 +210,43 @@ const resendVerificationLink  = async (req, res) => {
   }
 }
 
-module.exports = {login, register, getUserInfo, updateProfile, deleteProfile, refreshToken, verify2FA, toggle2FA, verifyEmail, resendVerificationLink}
+const forgotPassword = async(req, res) => {
+    const {username, email} = req.body
+
+    try{
+        const user = await findUserByUsername(username)
+
+        if(!user){
+            return res.status(401).json({ message: "User not found" ,userNotFound: true});
+        }
+
+        if (!user.is_verified) {
+            return res.status(403).json({ message: 'Please verify your email first.', isVerified: false});
+        }
+
+        const token = jwt.sign({ username: user.username }, process.env.PASSWORD_RESET_SECRET, { expiresIn: '15m' });
+        const resetLink = `http://localhost:5173/reset-password?token=${token}`;
+        await sendResetPasswordLink(email, resetLink)
+        res.status(200).json({ message: "Password reset link sent to email" });
+
+    } catch (err) {
+        console.error("forgot passward link Error:", err);
+        res.status(500).json({ error: "forgot passward link error" });
+  }
+}
+
+const updatePassword = async (req, res) => {
+    const {token, newPassword} = req.body
+    try{
+        const decoded = jwt.verify(token, process.env.PASSWORD_RESET_SECRET);
+        const username = decoded.username
+
+        await updateUserPassword(newPassword, username)
+        res.status(200).json({ message: "Password updated successfully" });
+    } catch (err) {
+        console.error("Reset passward Error:", err);
+        res.status(400).json({ message: "Invalid or expired token" });
+  }
+}
+
+module.exports = {login, register, getUserInfo, updateProfile, deleteProfile, refreshToken, verify2FA, toggle2FA, verifyEmail, resendVerificationLink, forgotPassword, updatePassword}
