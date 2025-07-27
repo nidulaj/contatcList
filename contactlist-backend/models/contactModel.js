@@ -15,7 +15,7 @@ const getUserID = async (username) => {
 }
 
 const getAllContacts = async (userId) => {
-    const query = 'SELECT * FROM "contact" WHERE user_id = $1';
+    const query = 'SELECT * FROM "contact" WHERE user_id = $1 ORDER BY "firstName" ASC';
     const values = [userId]
     const result = await db.query(query, values)
     return result.rows
