@@ -11,7 +11,6 @@ export default function Header({ darkMode, toggleDarkMode }) {
   const navigate = useNavigate();
 
   const fetchUserData = () => {
-    const token = localStorage.getItem("accessToken");
 
     authFetch({
       method: "get",

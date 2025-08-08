@@ -2,10 +2,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers['authorization'];
-  
-  // Extract the token from the "Bearer <token>" format
-  const token = authHeader && authHeader.split(' ')[1];
+  const token = req.cookies.accessToken
 
   if (!token) {
     return res.status(401).json({ message: 'Access token missing' });

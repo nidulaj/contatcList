@@ -4,7 +4,6 @@ import { authFetch } from "../utils/authFetch";
 
 export default function ContactDetails({ contact, onUpdate, onClearSelected }) {
   const handleDelete = async () => {
-    const token = localStorage.getItem("accessToken");
 
     try {
       await authFetch({

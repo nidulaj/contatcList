@@ -18,7 +18,6 @@ export default function Verify2FA({ setIsLoggedIn }) {
       );
 
       localStorage.removeItem("tempToken");
-      localStorage.setItem("accessToken", res.data.accessToken);
       setIsLoggedIn(true);
       navigate("/dashboard");
     } catch (err) {

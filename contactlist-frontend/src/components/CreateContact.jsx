@@ -16,7 +16,6 @@ export default function CreateContact({ onUpdate }) {
 
   const handleSubmit = async (e, close) => {
     e.preventDefault();
-    const token = localStorage.getItem("accessToken");
     try {
       const res = await authFetch({
         method: "post",
