@@ -27,8 +27,6 @@ export default function Login({ setIsLoggedIn }) {
         localStorage.setItem("tempToken", res.data.tempToken);
         navigate("/verify2FA");
       } else {
-        localStorage.setItem("accessToken", res.data.accessToken);
-        localStorage.setItem("refreshToken", res.data.refreshToken);
         setIsLoggedIn(true);
         navigate("/dashboard");
       }

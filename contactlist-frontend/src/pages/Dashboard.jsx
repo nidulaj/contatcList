@@ -13,10 +13,8 @@ export default function Dashboard({ darkMode, toggleDarkMode }) {
   const [selectedContact, setSelectedContact] = React.useState(null);
   const [searchTerm, setSearchTerm] = React.useState("");
   const [filteredContacts, setFilteredContacts] = React.useState([]);
-  const navigate = useNavigate();
 
   const fetchContacts = (newContactId = null) => {
-    const token = localStorage.getItem("accessToken");
     authFetch({
       method: "post",
       url: "http://localhost:5000/contact/",
