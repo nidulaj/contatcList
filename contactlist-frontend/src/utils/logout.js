@@ -1,13 +1,32 @@
 import Swal from "sweetalert2";
-export function handleLogout(navigate) {
-  console.log(localStorage.getItem("theme"))
+import { authFetch } from "./authFetch";
 
-  Swal.fire({
+
+export async function handleLogout(navigate) {
+
+  
+  try{
+    await authFetch({
+        method: "post",
+        url: `http://localhost:5000/auth/logout`,
+      });
+
+      navigate("/");
+
+      Swal.fire({
           title: "Success!",
           text: "You are logged out successfully.",
           icon: "success",
           confirmButtonText: "OK",
         });
+  } catch(err){
+    console.error("Logout failed:", err);
+    Swal.fire({
+          title: "Error!",
+          text: "Oops! Something went wrong.",
+          icon: "error",
+          confirmButtonText: "OK",
+  })
+  }
 
-  navigate("/");
 }

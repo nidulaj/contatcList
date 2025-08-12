@@ -4,7 +4,7 @@ import Settings from "./Settings";
 import { handleLogout } from "../utils/logout";
 import { useNavigate } from "react-router-dom";
 
-export default function Header({ darkMode, toggleDarkMode }) {
+export default function Header() {
   const [userData, setUserData] = React.useState(null);
   const [showSettings, setShowSettings] = React.useState(false);
 
@@ -34,9 +34,18 @@ export default function Header({ darkMode, toggleDarkMode }) {
 
   return (
     <div className="bg-white dark:bg-gray-900 shadow-md px-6 py-4 flex items-center justify-between">
-      <p className="text-xl font-semibold text-gray-800 dark:text-gray-100" onClick={() => navigate("/dashboard")}>
-        Contact List
-      </p>
+      <p
+  className="flex items-center gap-2 text-xl font-semibold text-gray-800 dark:text-gray-100 cursor-pointer"
+  onClick={() => navigate("/dashboard")}
+>
+  <img
+    alt="Your Company"
+    src="/src/assets/contact-book-light.png"
+    className="h-10 w-auto"
+  />
+  Contact List
+</p>
+
 
       <div className="flex items-center gap-4">
         <img
@@ -46,8 +55,9 @@ export default function Header({ darkMode, toggleDarkMode }) {
           onClick={() => navigate("/dashboard/userProfile")}
         />
 
-        <span className="text-gray-700 dark:text-gray-200 font-medium">
+        <span className="text-gray-700 dark:text-gray-200 font-medium cursor-pointer" onClick={() => navigate("/dashboard/userProfile")}>
           Welcome {userData ? userData.firstName : ""}
+          
         </span>
 
         <button
@@ -68,8 +78,6 @@ export default function Header({ darkMode, toggleDarkMode }) {
       {showSettings && (
         <Settings
           twoFAEnabled={userData.two_fa_enabled}
-          darkMode={darkMode}
-          toggleDarkMode={toggleDarkMode}
         />
       )}
     </div>

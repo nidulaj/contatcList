@@ -11,36 +11,6 @@ import ResetPassword from './pages/ResetPassword';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-  const [darkMode, setDarkMode] = React.useState(false);
-
-  React.useEffect(() => {
-    // 1. Check theme in localStorage
-    const savedTheme = localStorage.getItem("theme");
-
-    // 2. If found, use it; else default to light
-    const isDark = savedTheme === "dark";
-
-    setDarkMode(isDark);
-    applyTheme(isDark);
-  }, []);
-
-  const applyTheme = (isDark) => {
-    const html = document.documentElement;
-    if (isDark) {
-      html.classList.add("dark");
-    } else {
-      html.classList.remove("dark");
-    }
-  };
-
-  const toggleDarkMode = () => {
-    setDarkMode((prevMode) => {
-      const newMode = !prevMode;
-      localStorage.setItem("theme", newMode ? "dark" : "light");
-      applyTheme(newMode);
-      return newMode;
-    });
-  };
 
   return (
     <Router>
@@ -51,7 +21,7 @@ function App() {
           path='/dashboard'
           element={
             isLoggedIn ? (
-              <Dashboard darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+              <Dashboard />
             ) : (
               <Navigate to='/' />
             )
@@ -59,7 +29,7 @@ function App() {
         />
         <Route
           path='/dashboard/userProfile'
-          element={isLoggedIn ? <UserProfile darkMode={darkMode} toggleDarkMode={toggleDarkMode} /> : <Navigate to='/' />}
+          element={isLoggedIn ? <UserProfile /> : <Navigate to='/' />}
         />
         <Route path='/verify2FA' element={<Verify2FA setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
