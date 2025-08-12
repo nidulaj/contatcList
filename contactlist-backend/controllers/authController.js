@@ -337,6 +337,23 @@ const updatePassword = async (req, res) => {
   }
 };
 
+const logout = async (req, res) => {
+  res.clearCookie("accessToken", {
+    httpOnly: true,
+    sameSite: "Strict",
+    secure: false
+  })
+
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    sameSite: "Strict",
+    secure: false,
+  });
+
+  return res.status(200).json({ message: "Logged out successfully" });
+
+}
+
 module.exports = {
   login,
   register,
@@ -350,4 +367,5 @@ module.exports = {
   resendVerificationLink,
   forgotPassword,
   updatePassword,
+  logout
 };

@@ -8,7 +8,7 @@ import CreateContact from "../components/CreateContact";
 import { authFetch } from "../utils/authFetch";
 import Header from "../components/Header";
 
-export default function Dashboard({ darkMode, toggleDarkMode }) {
+export default function Dashboard() {
   const [contacts, setContacts] = React.useState([]);
   const [selectedContact, setSelectedContact] = React.useState(null);
   const [searchTerm, setSearchTerm] = React.useState("");
@@ -70,7 +70,7 @@ export default function Dashboard({ darkMode, toggleDarkMode }) {
 
   return (
     <>
-      <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+      <Header/>
       <div className="flex h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
         {/* Left Panel – Contact List */}
         <div className="w-[350px] bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col">

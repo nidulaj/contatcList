@@ -2,7 +2,7 @@ import React from "react";
 import Swal from "sweetalert2";
 import { authFetch } from "../utils/authFetch";
 
-export default function Settings({ darkMode, toggleDarkMode, twoFAEnabled }) {
+export default function Settings({twoFAEnabled }) {
   const [twoFA, setTwoFA] = React.useState(twoFAEnabled);
 
   const toggle2FA = async () => {
@@ -79,21 +79,6 @@ export default function Settings({ darkMode, toggleDarkMode, twoFAEnabled }) {
             <div
               className={`w-4 h-4 bg-white rounded-full shadow-md transform transition-transform ${
                 twoFA ? "translate-x-6" : "translate-x-0"
-              }`}
-            />
-          </button>
-        </li>
-        <li className="flex justify-between items-center px-3 py-2 rounded-md hover:opacity-80 hover:scale-[1.01] transition">
-          <span className="text-gray-800 dark:text-gray-100">Dark Mode</span>
-          <button
-            onClick={toggleDarkMode}
-            className={`w-12 h-6 rounded-full flex items-center px-1 transition-colors duration-300 ${
-              darkMode ? "bg-indigo-600" : "bg-gray-300 dark:bg-gray-500"
-            }`}
-          >
-            <div
-              className={`w-4 h-4 bg-white rounded-full shadow-md transform transition-transform ${
-                darkMode ? "translate-x-6" : "translate-x-0"
               }`}
             />
           </button>
