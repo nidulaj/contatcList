@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function ForgotPassword() {
+export default function ForgotPassword({isDark}) {
   const [username, setUsername] = React.useState("");
   const [email, setEmail] = React.useState("");
 
@@ -83,7 +83,7 @@ export default function ForgotPassword() {
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
           alt="Your Company"
-          src="/src/assets/contact-book-light.png"
+          src={isDark ? "/src/assets/contact-book-dark.png" : "/src/assets/contact-book-light.png"}
           className="mx-auto h-10 w-auto"
         />
         <h2 className="mt-10 text-center text-2xl font-bold tracking-tight text-gray-900 dark:text-white">

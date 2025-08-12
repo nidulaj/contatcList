@@ -12,8 +12,6 @@ const authenticateToken = (req, res, next) => {
   if (err){
     return res.sendStatus(403);
   }
-
-  console.log('Decoded JWT payload:', user);
   req.user = user;
   next();
 });

@@ -1,11 +1,11 @@
-export default function ContactCard(props) {
+export default function ContactCard(props,) {
   return (
     <div
   onClick={props.onClick}
   className="flex items-center gap-4 p-3 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition"
 >
   <img
-    src="/src/assets/user.png"
+    src={props.isDark ? "/src/assets/user-dark.png" : "/src/assets/user-light.png"}
     alt="User"
     className="w-10 h-10 rounded-full object-cover"
   />

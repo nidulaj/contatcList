@@ -8,7 +8,7 @@ import DeleteAlert from "../components/DeleteAlert";
 import { authFetch } from "../utils/authFetch";
 import Header from "../components/Header";
 
-export default function UserProfile({ darkMode, toggleDarkMode }) {
+export default function UserProfile({ darkMode, toggleDarkMode, isDark }) {
   const [userData, setUserData] = React.useState(null);
 
   const navigate = useNavigate();
@@ -32,7 +32,6 @@ export default function UserProfile({ darkMode, toggleDarkMode }) {
   }, []);
 
   const handleDelete = async () => {
-    const token = localStorage.getItem("accessToken");
 
     try {
       await authFetch({
@@ -59,7 +58,7 @@ export default function UserProfile({ darkMode, toggleDarkMode }) {
 
   return (
     <>
-    <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+    <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} isDark={isDark} />
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center p-6">
       <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-8 max-w-xl w-full">
         <h1 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
@@ -69,9 +68,9 @@ export default function UserProfile({ darkMode, toggleDarkMode }) {
           <div className="space-y-4">
             <div className="flex justify-center mb-4">
               <img
-                src="/src/assets/user.png"
+                src={isDark ? "/src/assets/user-dark.png" : "/src/assets/user-light.png"}
                 alt="User"
-                className="w-32 h-32 rounded-full border-4 border-indigo-500 shadow-md object-cover"
+                className="w-32 h-32 rounded-full shadow-md object-cover"
               />
             </div>
             <p className="text-gray-700 dark:text-gray-200">
@@ -92,7 +91,7 @@ export default function UserProfile({ darkMode, toggleDarkMode }) {
 
             {/* Edit & Delete Buttons */}
             <div className="mt-6 space-y-4">
-              <EditUserProfile userData={userData} onUpdate={fetchUserData} />
+              <EditUserProfile userData={userData} onUpdate={fetchUserData} isDark={isDark}/>
               <DeleteAlert handleDelete={handleDelete} type="Profile" />
             </div>
           </div>

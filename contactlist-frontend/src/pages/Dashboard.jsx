@@ -8,7 +8,7 @@ import CreateContact from "../components/CreateContact";
 import { authFetch } from "../utils/authFetch";
 import Header from "../components/Header";
 
-export default function Dashboard() {
+export default function Dashboard({isDark}) {
   const [contacts, setContacts] = React.useState([]);
   const [selectedContact, setSelectedContact] = React.useState(null);
   const [searchTerm, setSearchTerm] = React.useState("");
@@ -70,7 +70,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <Header/>
+      <Header isDark={isDark} />
       <div className="flex h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
         {/* Left Panel – Contact List */}
         <div className="w-[350px] bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col">
@@ -79,7 +79,7 @@ export default function Dashboard() {
             <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
               All Contacts
             </h2>
-            <CreateContact onUpdate={(newId) => fetchContacts(newId)} />
+            <CreateContact onUpdate={(newId) => fetchContacts(newId)}  isDark={isDark}/>
           </div>
 
           {/* Search Bar */}
@@ -107,6 +107,7 @@ export default function Dashboard() {
                       firstName={contact.firstName}
                       lastName={contact.lastName}
                       phoneNumber={contact.phoneNumber}
+                      isDark={isDark}
                     />
                   </div>
                 ))
@@ -127,6 +128,7 @@ export default function Dashboard() {
                 contact={selectedContact}
                 onUpdate={fetchContacts}
                 onClearSelected={() => setSelectedContact(null)}
+                isDark={isDark}
               />
             ) : (
               <EmptyContactDetails />
