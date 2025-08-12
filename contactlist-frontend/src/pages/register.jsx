@@ -24,7 +24,6 @@ export default function Register() {
         "http://localhost:5000/auth/register",
         formData
       );
-      console.log("Registered : ", res.data);
 
       Swal.fire({
         title: "Success!",

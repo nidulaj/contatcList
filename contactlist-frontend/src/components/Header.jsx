@@ -18,7 +18,6 @@ export default function Header() {
     })
       .then((res) => {
         setUserData(res.data.message);
-        console.log(res.data.message);
       })
       .catch((err) => {
         console.error("header load error:", err);

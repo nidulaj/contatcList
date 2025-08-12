@@ -80,9 +80,16 @@ export default function ForgotPassword() {
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-white dark:bg-gray-900 px-4">
       <div className="w-full max-w-sm space-y-4">
-        <h2 className="text-2xl font-bold mb-2 text-center text-gray-900 dark:text-white">
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <img
+          alt="Your Company"
+          src="/src/assets/contact-book-light.png"
+          className="mx-auto h-10 w-auto"
+        />
+        <h2 className="mt-10 text-center text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
           Forgot Password
         </h2>
+      </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
