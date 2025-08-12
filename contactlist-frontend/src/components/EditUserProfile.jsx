@@ -23,7 +23,6 @@ export default function EditUserProfile({ userData, onUpdate }) {
         data: formData,
       });
 
-      console.log("Updated: ", res.data);
       close();
       Swal.fire({
         title: "Success!",

@@ -22,7 +22,6 @@ export default function Verify2FA({ setIsLoggedIn }) {
       navigate("/dashboard");
     } catch (err) {
       console.error("Invalid 2FA code", err);
-      console.log(code)
       setCode("")
       Swal.fire({
         title: "Error!",

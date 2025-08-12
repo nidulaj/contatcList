@@ -92,10 +92,8 @@ const register = async (req, res) => {
   const { firstName, lastName, email, username, password } = req.body;
 
   try {
-    console.log("start register");
     const existingUser = await findUserByUsername(username);
     if (existingUser) {
-      console.log("exisiting user");
       return res.status(409).json({
         message: "Username is already registered. Try another username.",
       });
@@ -114,10 +112,8 @@ const register = async (req, res) => {
       process.env.EMAIL_TOKEN_SECRET,
       { expiresIn: "1d" }
     );
-    console.log("token", emailToken);
     const verificationLink = `http://localhost:5000/auth/verify-email?token=${emailToken}`;
     await sendVerificationLink(newUser.email, verificationLink);
-    console.log("link", verificationLink);
     res
       .status(201)
       .json({ message: "User registered successfully", user: newUser });
@@ -186,7 +182,6 @@ const refreshToken = (req, res) => {
 
   jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
     if (err) return res.sendStatus(403);
-    console.log("New access token generated");
     const accessToken = jwt.sign(
       { username: user.username },
       process.env.ACCESS_TOKEN_SECRET,
@@ -208,9 +203,7 @@ const verify2FA = async (req, res) => {
   const { code } = req.body;
 
   try {
-    console.log("username*****", username, "code: ", code);
     const verifyedUser = await get2FA(username, code);
-    console.log("verified code : ", verifyedUser);
 
     if (!verifyedUser) {
       return res.status(401).json({ message: "Invalid 2FA code" });
@@ -228,7 +221,21 @@ const verify2FA = async (req, res) => {
     );
 
     await delete2FA(username);
-    res.json({ accessToken, refreshToken });
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: false,
+      maxAge: 10 * 1000
+    });
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: false,
+      maxAge: 7 * 24 * 60 * 60 * 1000
+    });
+
+    res.status(200).json({ message: "2FA verified" });
   } catch (err) {
     console.error("2FA verify error:", err);
     res

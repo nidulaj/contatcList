@@ -22,7 +22,6 @@ export default function CreateContact({ onUpdate }) {
         url: `http://localhost:5000/contact/newContact`,
         data: formData,
       });
-      console.log("Created: ", res.data);
       close();
       Swal.fire({
         title: "Success!",

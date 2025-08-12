@@ -12,7 +12,6 @@ const authenticateTempToken = (req, res, next) => {
     if (err) {
       return res.status(403).json({ message: 'Invalid or expired temp token' });
     }
-    console.log('Decoded JWT payload:', user);
     req.user = user;
     next();
   });
