@@ -4,7 +4,7 @@ import Settings from "./Settings";
 import { handleLogout } from "../utils/logout";
 import { useNavigate } from "react-router-dom";
 
-export default function Header() {
+export default function Header({isDark}) {
   const [userData, setUserData] = React.useState(null);
   const [showSettings, setShowSettings] = React.useState(false);
 
@@ -39,7 +39,7 @@ export default function Header() {
 >
   <img
     alt="Your Company"
-    src="/src/assets/contact-book-light.png"
+    src={isDark ? "/src/assets/contact-book-dark.png" : "/src/assets/contact-book-light.png"}
     className="h-10 w-auto"
   />
   Contact List
@@ -48,7 +48,7 @@ export default function Header() {
 
       <div className="flex items-center gap-4">
         <img
-          src="/src/assets/user.png"
+          src={isDark ? "/src/assets/user-dark.png" : "/src/assets/user-light.png"}
           alt="User"
           className="w-10 h-10 rounded-full object-cover cursor-pointer"
           onClick={() => navigate("/dashboard/userProfile")}

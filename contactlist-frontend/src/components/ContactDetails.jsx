@@ -2,7 +2,7 @@ import EditContact from "./EditContact";
 import DeleteAlert from "./DeleteAlert";
 import { authFetch } from "../utils/authFetch";
 
-export default function ContactDetails({ contact, onUpdate, onClearSelected }) {
+export default function ContactDetails({ contact, onUpdate, onClearSelected , isDark }) {
   const handleDelete = async () => {
 
     try {
@@ -22,9 +22,9 @@ export default function ContactDetails({ contact, onUpdate, onClearSelected }) {
       {/* Profile Image */}
       <div className="flex justify-center mb-6">
         <img
-          src="/src/assets/user.png"
+          src={isDark ? "/src/assets/user-dark.png" : "/src/assets/user-light.png"}
           alt="User"
-          className="w-24 h-24 rounded-full object-cover border-4 border-gray-200 dark:border-gray-700"
+          className="w-24 h-24 rounded-full object-cover"
         />
       </div>
 
@@ -78,7 +78,7 @@ export default function ContactDetails({ contact, onUpdate, onClearSelected }) {
 
       {/* Action Buttons – Stuck at Bottom */}
       <div className="pt-6 mt-6  dark:border-gray-700 flex gap-4">
-        <EditContact contact={contact} onUpdate={onUpdate} />
+        <EditContact contact={contact} onUpdate={onUpdate} isDark={isDark}/>
         <DeleteAlert handleDelete={handleDelete} type="contact" />
       </div>
     </div>

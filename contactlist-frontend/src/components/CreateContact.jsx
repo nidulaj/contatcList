@@ -4,7 +4,7 @@ import "reactjs-popup/dist/index.css";
 import { authFetch } from "../utils/authFetch";
 import Swal from "sweetalert2";
 
-export default function CreateContact({ onUpdate }) {
+export default function CreateContact({ onUpdate , isDark }) {
   const [formData, setFormData] = React.useState();
 
   const handleChange = (e) => {
@@ -61,9 +61,9 @@ export default function CreateContact({ onUpdate }) {
             {/* Left half - Image */}
             <div className="w-1/2 flex flex-col justify-center items-center">
               <img
-                src="/src/assets/user.png"
+                src={isDark ? "/src/assets/user-dark.png" : "/src/assets/user-light.png"}
                 alt="User"
-                className="w-48 h-48 rounded-full object-cover border-2 border-indigo-600"
+                className="w-48 h-48 rounded-full object-cover"
               />
             </div>
 

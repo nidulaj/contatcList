@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
-export default function Register() {
+export default function Register({isDark}) {
   const [formData, setFormData] = React.useState({
     firstName: "",
     lastName: "",
@@ -48,7 +48,7 @@ export default function Register() {
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
           alt="Your Company"
-          src="./src/assets/contact-book-light.png"
+          src={isDark ? "/src/assets/contact-book-dark.png" : "/src/assets/contact-book-light.png"}
           className="mx-auto h-10 w-auto"
         />
         <h2 className="mt-10 text-center text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
