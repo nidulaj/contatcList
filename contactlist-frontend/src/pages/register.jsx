@@ -2,6 +2,8 @@ import React from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { API_URL } from "../utils/api";
+
 export default function Register({isDark}) {
   const [formData, setFormData] = React.useState({
     firstName: "",
@@ -21,7 +23,7 @@ export default function Register({isDark}) {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:5000/auth/register",
+        `${API_URL}/auth/register`,
         formData
       );
 

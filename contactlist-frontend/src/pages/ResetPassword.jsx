@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useSearchParams, useNavigate } from "react-router-dom";
+import { API_URL } from "../utils/api";
 
 export default function ResetPassword() {
   const [newPassword, setNewPassword] = React.useState("");
@@ -12,7 +13,7 @@ export default function ResetPassword() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/auth/reset-password", {
+      await axios.post(`${API_URL}/auth/reset-password`, {
         token,
         newPassword
       });

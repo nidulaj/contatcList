@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import DeleteAlert from "../components/DeleteAlert";
 import { authFetch } from "../utils/authFetch";
 import Header from "../components/Header";
+import { API_URL } from "../utils/api";
 
 export default function UserProfile({ darkMode, toggleDarkMode, isDark }) {
   const [userData, setUserData] = React.useState(null);
@@ -17,7 +18,7 @@ export default function UserProfile({ darkMode, toggleDarkMode, isDark }) {
 
     authFetch({
       method: "get",
-      url: "http://localhost:5000/auth/profile",
+      url: `${API_URL}/auth/profile`,
     })
       .then((res) => {
         setUserData(res.data.message);
@@ -36,7 +37,7 @@ export default function UserProfile({ darkMode, toggleDarkMode, isDark }) {
     try {
       await authFetch({
         method: "delete",
-        url: `http://localhost:5000/auth/profile`,
+        url: `${API_URL}/auth/profile`,
       });
 
       Swal.fire({

@@ -3,6 +3,7 @@ import { authFetch } from "../utils/authFetch";
 import Settings from "./Settings";
 import { handleLogout } from "../utils/logout";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../utils/api";
 
 export default function Header({isDark}) {
   const [userData, setUserData] = React.useState(null);
@@ -14,7 +15,7 @@ export default function Header({isDark}) {
 
     authFetch({
       method: "get",
-      url: "http://localhost:5000/auth/profile",
+      url: `${API_URL}/auth/profile`,
     })
       .then((res) => {
         setUserData(res.data.message);

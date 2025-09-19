@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { API_URL } from "../utils/api";
 
 export default function Verify2FA({ setIsLoggedIn }) {
   const [code, setCode] = React.useState("");
@@ -12,7 +13,7 @@ export default function Verify2FA({ setIsLoggedIn }) {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/auth/verify-2fa",
+        `${API_URL}/auth/verify-2fa`,
         { code },
         { headers: { Authorization: `Bearer ${tempToken}` } }
       );
