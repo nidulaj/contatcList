@@ -4,7 +4,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser')
 const authRoutes = require('./routes/authRoutes')
 const contactRoutes = require('./routes/contactRoutes')
-
+const port = process.env.Port || 5000;
 const app = express();
 app.use(cors({
   origin: "http://localhost:5173",
@@ -18,6 +18,6 @@ app.use('/contact', contactRoutes)
 
 
 
-app.listen(5000, () => {
-  console.log('Server started on http://localhost:5000');
+app.listen(port, () => {
+  console.log(`Server started on http://localhost:${port}`);
 });

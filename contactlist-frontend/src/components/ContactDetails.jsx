@@ -1,14 +1,14 @@
 import EditContact from "./EditContact";
 import DeleteAlert from "./DeleteAlert";
 import { authFetch } from "../utils/authFetch";
-
+import { API_URL } from "../utils/api";
 export default function ContactDetails({ contact, onUpdate, onClearSelected , isDark }) {
   const handleDelete = async () => {
 
     try {
       await authFetch({
         method: "delete",
-        url: `http://localhost:5000/contact/${contact.contact_id}`,
+        url: `${API_URL}/contact/${contact.contact_id}`,
       });
       if (onUpdate) onUpdate();
       if (onClearSelected) onClearSelected();

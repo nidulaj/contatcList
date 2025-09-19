@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 import { authFetch } from "./authFetch";
-
+import { API_URL } from "../utils/api";
 
 export async function handleLogout(navigate) {
 
@@ -8,7 +8,7 @@ export async function handleLogout(navigate) {
   try{
     await authFetch({
         method: "post",
-        url: `http://localhost:5000/auth/logout`,
+        url: `${API_URL}/auth/logout`,
       });
 
       navigate("/");

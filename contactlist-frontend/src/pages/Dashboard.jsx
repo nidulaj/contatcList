@@ -7,7 +7,7 @@ import ContactDetails from "../components/ContactDetails";
 import CreateContact from "../components/CreateContact";
 import { authFetch } from "../utils/authFetch";
 import Header from "../components/Header";
-
+import { API_URL } from "../utils/api";
 export default function Dashboard({isDark}) {
   const [contacts, setContacts] = React.useState([]);
   const [selectedContact, setSelectedContact] = React.useState(null);
@@ -17,7 +17,7 @@ export default function Dashboard({isDark}) {
   const fetchContacts = (newContactId = null) => {
     authFetch({
       method: "post",
-      url: "http://localhost:5000/contact/",
+      url: `${API_URL}/contact/`,
     })
       .then((res) => {
         const updatedContacts = res.data.contacts;

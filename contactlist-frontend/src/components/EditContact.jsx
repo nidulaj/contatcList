@@ -3,6 +3,7 @@ import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import { authFetch } from "../utils/authFetch";
 import Swal from "sweetalert2";
+import { API_URL } from "../utils/api";
 
 export default function EditContact({ contact, onUpdate, isDark }) {
   const [formData, setFormData] = React.useState({ ...contact });
@@ -24,7 +25,7 @@ export default function EditContact({ contact, onUpdate, isDark }) {
     try {
       const res = await authFetch({
         method: "put",
-        url: `http://localhost:5000/contact/${contact.contact_id}`,
+        url: `${API_URL}/contact/${contact.contact_id}`,
         data: formData,
       });
 

@@ -2,6 +2,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../utils/api";
 
 export default function ForgotPassword({isDark}) {
   const [username, setUsername] = React.useState("");
@@ -13,7 +14,7 @@ export default function ForgotPassword({isDark}) {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:5000/auth/forgot-password", {
+      await axios.post(`${API_URL}/auth/forgot-password`, {
         username,
         email,
       });
@@ -42,7 +43,7 @@ export default function ForgotPassword({isDark}) {
             if (result.isConfirmed) {
               try {
                 const resendRes = await axios.post(
-                  "http://localhost:5000/auth/resend-verification",
+                  `${API_URL}/auth/resend-verification`,
                   {
                     username: username,
                   }

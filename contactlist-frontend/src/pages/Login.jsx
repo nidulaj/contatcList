@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { API_URL } from "../utils/api";
 
 export default function Login({ setIsLoggedIn , isDark }) {
   const [credentials, setCredentials] = React.useState({
@@ -19,7 +20,7 @@ export default function Login({ setIsLoggedIn , isDark }) {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:5000/auth/login",
+        `${API_URL}/auth/login`,
         credentials
       );
 
@@ -60,7 +61,7 @@ export default function Login({ setIsLoggedIn , isDark }) {
             if (result.isConfirmed) {
               try {
                 const resendRes = await axios.post(
-                  "http://localhost:5000/auth/resend-verification",
+                  `${API_URL}/auth/resend-verification`,
                   {
                     username: credentials.username,
                   }

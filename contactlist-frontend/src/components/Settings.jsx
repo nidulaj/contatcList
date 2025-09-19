@@ -1,6 +1,7 @@
 import React from "react";
 import Swal from "sweetalert2";
 import { authFetch } from "../utils/authFetch";
+import { API_URL } from "../utils/api";
 
 export default function Settings({twoFAEnabled }) {
   const [twoFA, setTwoFA] = React.useState(twoFAEnabled);
@@ -9,7 +10,7 @@ export default function Settings({twoFAEnabled }) {
     try {
       await authFetch({
         method: "post",
-        url: "http://localhost:5000/auth/toggle-2fa",
+        url: `${API_URL}/auth/toggle-2fa`,
       });
 
       setTwoFA((prev) => !prev);
@@ -36,7 +37,7 @@ export default function Settings({twoFAEnabled }) {
     try {
       const response = await authFetch({
         method: "get",
-        url: "http://localhost:5000/contact/export-pdf",
+        url: `${API_URL}/contact/export-pdf`,
         responseType: "blob",
       });
       const url = window.URL.createObjectURL(new Blob([response.data]));

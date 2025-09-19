@@ -1,4 +1,5 @@
 import axios from "axios";
+import { API_URL } from "./api";
 
 export const authFetch = async (config) => {
   try {
@@ -18,7 +19,7 @@ export const authFetch = async (config) => {
 
       try {
         // Wait for the refresh request to finish so cookie is set
-        await axios.post("http://localhost:5000/auth/refresh", {}, { withCredentials: true });
+        await axios.post(`${API_URL}/auth/refresh`, {}, { withCredentials: true });
         // Retry original request (withCredentials already set on config)
         return await axios(config);
       } catch (refreshErr) {

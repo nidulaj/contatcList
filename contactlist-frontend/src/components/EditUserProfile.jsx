@@ -3,6 +3,7 @@ import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import { authFetch } from "../utils/authFetch";
 import Swal from "sweetalert2";
+import { API_URL } from "../utils/api";
 
 export default function EditUserProfile({ userData, onUpdate, isDark }) {
   const [formData, setFormData] = React.useState({ ...userData });
@@ -17,9 +18,9 @@ export default function EditUserProfile({ userData, onUpdate, isDark }) {
   const handleSubmit = async (e, close) => {
     e.preventDefault();
     try {
-      const res = await await authFetch({
+      const res = await authFetch({
         method: "put",
-        url: `http://localhost:5000/auth/profile`,
+        url: `${API_URL}/auth/profile`,
         data: formData,
       });
 
