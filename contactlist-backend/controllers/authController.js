@@ -59,7 +59,7 @@ const login = async (req, res) => {
       const accessToken = jwt.sign(
         { username: user.username },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: "10s" }
+        { expiresIn: "15m" } // use 15 minutes in production
       );
       const refreshToken = jwt.sign(
         { username: user.username },
@@ -69,16 +69,16 @@ const login = async (req, res) => {
 
       res.cookie("accessToken", accessToken, {
         httpOnly: true,
-        sameSite: "lax",
-        secure: false,
-        maxAge: 10 * 1000,
+        sameSite: "None",
+        secure: true,
+        maxAge: 15 * 60 * 1000, // 15 minutes
       });
 
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
-        sameSite: "lax",
-        secure: false,
-        maxAge: 7 * 24 * 60 * 60 * 1000,
+        sameSite: "None",
+        secure: true,
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       });
       return res.status(200).json({ is2FAEnabled: false });
     }
@@ -112,7 +112,7 @@ const register = async (req, res) => {
       process.env.EMAIL_TOKEN_SECRET,
       { expiresIn: "1d" }
     );
-    const verificationLink = `http://localhost:5000/auth/verify-email?token=${emailToken}`;
+    const verificationLink = `https://your-backend-domain.com/auth/verify-email?token=${emailToken}`;
     await sendVerificationLink(newUser.email, verificationLink);
     res
       .status(201)
@@ -189,8 +189,8 @@ const refreshToken = (req, res) => {
     );
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
-      sameSite: "lax",
-      secure: false,
+      sameSite: "None",
+      secure: true,
       maxAge: 15 * 60 * 1000,
     });
 
@@ -212,7 +212,7 @@ const verify2FA = async (req, res) => {
     const accessToken = jwt.sign(
       { username },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "10s" }
+      { expiresIn: "15m" }
     );
     const refreshToken = jwt.sign(
       { username },
@@ -223,16 +223,16 @@ const verify2FA = async (req, res) => {
     await delete2FA(username);
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
-      sameSite: "lax",
-      secure: false,
-      maxAge: 10 * 1000
+      sameSite: "None",
+      secure: true,
+      maxAge: 15 * 60 * 1000,
     });
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      sameSite: "lax",
-      secure: false,
-      maxAge: 7 * 24 * 60 * 60 * 1000
+      sameSite: "None",
+      secure: true,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     res.status(200).json({ message: "2FA verified" });
@@ -263,7 +263,7 @@ const verifyEmail = async (req, res) => {
     const decoded = jwt.verify(token, process.env.EMAIL_TOKEN_SECRET);
     const username = decoded.username;
     await emailVerification(username);
-    res.redirect("http://localhost:5173/verify-email");
+    res.redirect("https://your-frontend-domain.com/verify-email");
   } catch (err) {
     res.status(400).json({ message: "Invalid or expired token" });
   }
@@ -288,7 +288,7 @@ const resendVerificationLink = async (req, res) => {
       process.env.EMAIL_TOKEN_SECRET,
       { expiresIn: "1d" }
     );
-    const verificationLink = `http://localhost:5000/auth/verify-email?token=${emailToken}`;
+    const verificationLink = `https://your-backend-domain.com/auth/verify-email?token=${emailToken}`;
     await sendVerificationLink(user.email, verificationLink);
     res.status(200).json({ message: "Verification link resent successfully" });
   } catch (err) {
@@ -321,12 +321,12 @@ const forgotPassword = async (req, res) => {
       process.env.PASSWORD_RESET_SECRET,
       { expiresIn: "15m" }
     );
-    const resetLink = `http://localhost:5173/reset-password?token=${token}`;
+    const resetLink = `https://your-frontend-domain.com/reset-password?token=${token}`;
     await sendResetPasswordLink(email, resetLink);
     res.status(200).json({ message: "Password reset link sent to email" });
   } catch (err) {
-    console.error("forgot passward link Error:", err);
-    res.status(500).json({ error: "forgot passward link error" });
+    console.error("forgot password link Error:", err);
+    res.status(500).json({ error: "forgot password link error" });
   }
 };
 
@@ -339,7 +339,7 @@ const updatePassword = async (req, res) => {
     await updateUserPassword(newPassword, username);
     res.status(200).json({ message: "Password updated successfully" });
   } catch (err) {
-    console.error("Reset passward Error:", err);
+    console.error("Reset password Error:", err);
     res.status(400).json({ message: "Invalid or expired token" });
   }
 };
@@ -347,19 +347,18 @@ const updatePassword = async (req, res) => {
 const logout = async (req, res) => {
   res.clearCookie("accessToken", {
     httpOnly: true,
-    sameSite: "Strict",
-    secure: false
-  })
+    sameSite: "None",
+    secure: true,
+  });
 
   res.clearCookie("refreshToken", {
     httpOnly: true,
-    sameSite: "Strict",
-    secure: false,
+    sameSite: "None",
+    secure: true,
   });
 
   return res.status(200).json({ message: "Logged out successfully" });
-
-}
+};
 
 module.exports = {
   login,
@@ -374,5 +373,5 @@ module.exports = {
   resendVerificationLink,
   forgotPassword,
   updatePassword,
-  logout
+  logout,
 };
